@@ -52,7 +52,7 @@ $(OBJ): %.o: %.c
 	@echo "$(YELLOW)Compiling $@ from $^...$(RESET)"
 	@$(CC) $(CFLAGS) -c -o $@ $^
 
-	$(LIBFT):
+$(LIBFT):
 		make -C $(LIBFT_DIR)
 
 $(LIB_MLX):
