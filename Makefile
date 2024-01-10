@@ -52,8 +52,8 @@ $(OBJ): %.o: %.c
 	@echo "$(YELLOW)Compiling $@ from $^...$(RESET)"
 	@$(CC) $(CFLAGS) -c -o $@ $^
 
-$(LIBFT):
-	make -C $(LIBFT_DIR)
+	$(LIBFT):
+		make -C $(LIBFT_DIR)
 
 $(LIB_MLX):
-	make -C $(MLX_DIR)
+	@cmake $(MLX_DIR) -B $(MLX_DIR)/build && make -C $(MLX_DIR)/build -j4
