@@ -21,6 +21,9 @@ NAME = cub3D
 SRC =	src/main.c
 OBJ = $(SRC:.c=.o)
 
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a 
+
 ################################################################################
 
 .PHONY: all clean fclean re
@@ -39,10 +42,13 @@ re: fclean all
 
 ################################################################################
 
-$(NAME):$(OBJ)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LDFLAGS)
+$(NAME):$(OBJ) $(LIBFT)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LDFLAGS)
 	@echo "$(GREEN)Finished buidling $@!$(RESET)"
 
 $(OBJ): %.o: %.c
 	@echo "$(YELLOW)Compiling $@ from $^...$(RESET)"
 	@$(CC) $(CFLAGS) -c -o $@ $^
+
+$(LIBFT):
+	make -C $(LIBFT_DIR)
