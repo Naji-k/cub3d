@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=leak,address
-LDFLAGS = 
+LDFLAGS = -ldl -lglfw -pthread -lm #linux
 
 ################################################################################
 
@@ -21,7 +21,9 @@ NAME = cub3D
 SRC =	src/main.c
 OBJ = $(SRC:.c=.o)
 
-LIBFT_DIR = libft
+LIBFT_DIR = libs/libft
+MLX_DIR = libs/MLX42
+LIB_MLX = $(MLX_DIR)/build/libmlx42.a
 LIBFT = $(LIBFT_DIR)/libft.a 
 
 ################################################################################
@@ -42,8 +44,8 @@ re: fclean all
 
 ################################################################################
 
-$(NAME):$(OBJ) $(LIBFT)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LDFLAGS)
+$(NAME):$(OBJ) $(LIBFT) $(LIB_MLX)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LIB_MLX) $(LDFLAGS)
 	@echo "$(GREEN)Finished buidling $@!$(RESET)"
 
 $(OBJ): %.o: %.c
@@ -52,3 +54,6 @@ $(OBJ): %.o: %.c
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
+
+$(LIB_MLX):
+	make -C $(MLX_DIR)
