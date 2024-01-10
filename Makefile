@@ -53,7 +53,7 @@ $(OBJ): %.o: %.c
 	@$(CC) $(CFLAGS) -c -o $@ $^
 
 $(LIBFT):
-		make -C $(LIBFT_DIR)
+	@make -C $(LIBFT_DIR)
 
 $(LIB_MLX):
 	@cmake $(MLX_DIR) -B $(MLX_DIR)/build && make -C $(MLX_DIR)/build -j4
