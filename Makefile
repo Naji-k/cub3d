@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=leak,address
-LDFLAGS = -pthread
+LDFLAGS = 
 
 ################################################################################
 
