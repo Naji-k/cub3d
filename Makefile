@@ -23,7 +23,7 @@ OBJ = $(SRC:.c=.o)
 
 ################################################################################
 
-.PHONY: all clean fclean re debug bonus
+.PHONY: all clean fclean re
 
 all: $(NAME)
 
