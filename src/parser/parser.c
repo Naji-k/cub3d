@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 12:13:00 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/11 16:22:36 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/11 16:26:56 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,12 +119,14 @@ t_error	parse_file(const char *file_path, t_map *map, t_player *player)
 	err = parse_textures_and_colors(file, map);
 	if (err != OK)
 	{
+		//free map
 		close(file);
 		return (err);
 	}
 	err = parse_layout(file, map, player);
 	if (err != OK)
 	{
+		//free map
 		close(file);
 		return (err);
 	}
