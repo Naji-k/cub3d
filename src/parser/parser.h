@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   color.h                                            :+:    :+:            */
+/*   parser.h                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/01/10 16:43:06 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/11 15:11:59 by tsteur        ########   odam.nl         */
+/*   Created: 2024/01/11 12:10:18 by tsteur        #+#    #+#                 */
+/*   Updated: 2024/01/11 14:23:55 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLOR_H
-# define COLOR_H
-
-# include <stdint.h>
+#ifndef PARSER_H
+# define PARSER_H
 
 # include "errors.h"
+# include "map.h"
+# include "player.h"
 
-typedef union u_color
-{
-	int		raw;
-	uint8_t	indexable[4];
-	struct
-	{
-		uint8_t	r;
-		uint8_t	g;
-		uint8_t	b;
-		uint8_t	a;
-	};
-}	t_color;
-
-t_error	asci_to_color_rgb(t_color *color, char *string);
+t_error	parse_file(const char *file_path, t_map *map, t_player *player);
 
 #endif

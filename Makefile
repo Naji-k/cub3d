@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=leak,address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=leak,address -Isrc -Ilibs/libft -Ilibs/MLX42/include/MLX42
 LDFLAGS = -ldl -lglfw -pthread -lm #linux
 
 ################################################################################
@@ -18,7 +18,8 @@ RESET = \033[0m
 
 NAME = cub3D
 
-SRC =	src/main.c
+SRC =	src/main.c src/color.c \
+		src/parser/parser.c
 OBJ = $(SRC:.c=.o)
 
 LIBFT_DIR = libs/libft
@@ -56,4 +57,5 @@ $(LIBFT):
 	@make -C $(LIBFT_DIR)
 
 $(LIB_MLX):
-	@cmake $(MLX_DIR) -B $(MLX_DIR)/build && make -C $(MLX_DIR)/build -j4
+	@cmake $(MLX_DIR) -B $(MLX_DIR)/build
+	@make -C $(MLX_DIR)/build -j4
