@@ -1,40 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   map.h                                              :+:    :+:            */
+/*   map.c                                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/01/10 16:34:23 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/12 12:39:27 by tsteur        ########   odam.nl         */
+/*   Created: 2024/01/12 12:38:29 by tsteur        #+#    #+#                 */
+/*   Updated: 2024/01/12 12:43:40 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_H
-# define MAP_H
+#include <stddef.h>
+#include <stdlib.h>
 
-# include "MLX42.h"
+#include "MLX42.h"
 
-# include "color.h"
+#include "map.h"
 
-typedef enum e_tile
+void	destruct_map(t_map *map)
 {
-	EMPTY = 0,
-	WALL,
-	DOOR
-}	t_tile;
-
-typedef struct s_map
-{
-	mlx_texture_t	*north_texture;
-	mlx_texture_t	*east_texture;
-	mlx_texture_t	*south_texture;
-	mlx_texture_t	*west_texture;
-	t_color			floor_color;
-	t_color			ceiling_color;
-	t_tile			**tiles;
-}	t_map;
-
-void	destruct_map(t_map *map);
-
-#endif
+	if (map->north_texture != NULL)
+		mlx_delete_texture(map->north_texture);
+	if (map->east_texture != NULL)
+		mlx_delete_texture(map->east_texture);
+	if (map->south_texture != NULL)
+		mlx_delete_texture(map->south_texture);
+	if (map->west_texture != NULL)
+		mlx_delete_texture(map->west_texture);
+}
