@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/12 12:38:29 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/12 17:07:26 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/12 18:09:24 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,13 @@ void	map_destruct(t_map *map)
 
 void map_set_tile(t_map *map, unsigned long x, unsigned long y, t_tile tile)
 {
-	map->tiles[y * map->width + x] = tile;
+	if (x < map->width && y < map->height)
+		map->tiles[y * map->width + x] = tile;
 }
 
 t_tile map_get_tile(t_map *map, unsigned long x, unsigned long y)
 {
-	return (map->tiles[y * map->width + x]);
+	if (x < map->width && y < map->height)
+		return (map->tiles[y * map->width + x]);
+	return (TILE_EMPTY);
 }
