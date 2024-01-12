@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:49:48 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/11 15:56:53 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/12 12:54:25 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef enum e_error
 	OK = 0,
 	ERR_MALLOC,
 	ERR_OPEN,
+	ERR_READ,
 	ERR_MLX,
 	// color
 	ERR_COLOR_VALUE_OUT_OF_RANGE,

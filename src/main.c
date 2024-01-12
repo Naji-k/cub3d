@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:54:02 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/12 12:44:23 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/12 17:22:06 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ int	main(void)
 	printf("%i\n", parse_file("maps/example_map.cub", &map, &player));
 	printf("%i, %i, %i\n", map.floor_color.r, map.floor_color.g, map.floor_color.b);
 	printf("%i, %i, %i\n", map.ceiling_color.r, map.ceiling_color.g, map.ceiling_color.b);
-	destruct_map(&map);
+	map_destruct(&map);
 	return (OK);
 }

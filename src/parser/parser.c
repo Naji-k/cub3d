@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 12:13:00 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/12 12:44:09 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/12 17:34:30 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+
+#define __USE_MISC 1
+#include <math.h>
 
 #include "MLX42.h"
 
@@ -102,9 +105,68 @@ t_error	parse_textures_and_colors(int file, t_map *map)
 
 t_error	parse_layout(int file, t_map *map, t_player *player)
 {
-	(void) file;
-	(void) map;
-	(void) player;
+	char			*current_line;
+	t_list			*lines;
+	t_list			*current_node;
+	unsigned long	x;
+	unsigned long	y;
+
+	while (true)
+	{
+		current_line = get_next_line(file);
+		if (current_line == NULL)
+			break ;
+		current_node = ft_lstnew(current_line);
+		if (current_node == NULL)
+			return (ft_lstclear(&lines, free), ERR_MALLOC);
+		ft_lstadd_front(&lines, current_node);
+	}
+	current_node = lines;
+	while (current_line != NULL)
+	{
+		if (ft_strlen(current_node->content) - 1 > map->width)
+			map->width = ft_strlen(current_node->content) - 1;
+		current_node = current_node->next;
+	}
+	map->height = ft_lstsize(lines);
+	map->tiles = ft_calloc(sizeof(t_tile), map->width * map->height);
+	if (map->tiles == NULL)
+		return (ft_lstclear(&lines, free), ERR_MALLOC);
+	y = 0;
+	current_node = lines;
+	while (current_node != NULL)
+	{
+		x = 0;
+		current_line = current_node->content;
+		while (current_line[x] != '\0' && current_line[x] != '\n')
+		{
+			if (current_line[x] == '0' || current_line[x] == ' ')
+				map_set_tile(map, x, y, TILE_EMPTY);
+			else if (current_line[x] == '1')
+				map_set_tile(map, x, y, TILE_WALL);
+			else if (current_line[x] == '2')
+				map_set_tile(map, x, y, TILE_DOOR);
+			else if (current_line[x] == 'N' || current_line[x] == 'E' || \
+					current_line[x] == 'S' || current_line[x] == 'W')
+			{
+				map_set_tile(map, x, y, TILE_EMPTY);
+				player->x = x;
+				player->y = y;
+				if (current_line[x] == 'N')
+					player->rotation = 0.0 * M_PI;
+				else if (current_line[x] == 'E')
+					player->rotation = 0.5 * M_PI;
+				else if (current_line[x] == 'S')
+					player->rotation = 1.0 * M_PI;
+				else if (current_line[x] == 'W')
+					player->rotation = 1.5 * M_PI;
+			}
+			x++;
+		}
+		current_node = current_node->next;
+		y++;
+	}
+	ft_lstclear(&lines, free);
 	return (OK);
 }
 
@@ -116,20 +178,21 @@ t_error	parse_file(const char *file_path, t_map *map, t_player *player)
 	file = open(file_path, O_RDONLY);
 	if (file == -1)
 		return (ERR_OPEN);
+	if (read(file, NULL, 0) == -1)
+		return (close(file), ERR_READ);
 	err = parse_textures_and_colors(file, map);
 	if (err != OK)
 	{
-		destruct_map(map);
+		map_destruct(map);
 		close(file);
 		return (err);
 	}
 	err = parse_layout(file, map, player);
+	close(file);
 	if (err != OK)
 	{
-		destruct_map(map);
-		close(file);
+		map_destruct(map);
 		return (err);
 	}
-	close(file);
 	return (OK);
 }

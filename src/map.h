@@ -6,12 +6,14 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:34:23 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/12 12:39:27 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/12 17:13:34 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_H
 # define MAP_H
+
+# include <stddef.h>
 
 # include "MLX42.h"
 
@@ -19,9 +21,9 @@
 
 typedef enum e_tile
 {
-	EMPTY = 0,
-	WALL,
-	DOOR
+	TILE_EMPTY = 0,
+	TILE_WALL,
+	TILE_DOOR
 }	t_tile;
 
 typedef struct s_map
@@ -32,9 +34,13 @@ typedef struct s_map
 	mlx_texture_t	*west_texture;
 	t_color			floor_color;
 	t_color			ceiling_color;
-	t_tile			**tiles;
+	size_t			width;
+	size_t			height;
+	t_tile			*tiles;
 }	t_map;
 
-void	destruct_map(t_map *map);
+void	map_destruct(t_map *map);
+void map_set_tile(t_map *map, unsigned long x, unsigned long y, t_tile tile);
+t_tile map_get_tile(t_map *map, unsigned long x, unsigned long y);
 
 #endif
