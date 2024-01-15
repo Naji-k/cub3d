@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 12:13:00 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/12 18:13:24 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/15 12:33:55 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,17 @@ t_error	parse_layout(int file, t_map *map, t_player *player)
 		current_line = get_next_line(file);
 		if (current_line == NULL)
 			break ;
+		if (current_line[0] != '\n')
+			break ;
+		free (current_line);
+	}
+	while (current_line != NULL)
+	{
 		current_node = ft_lstnew(current_line);
 		if (current_node == NULL)
 			return (ft_lstclear(&lines, free), ERR_MALLOC);
 		ft_lstadd_back(&lines, current_node);
+		current_line = get_next_line(file);
 	}
 	current_node = lines;
 	while (current_node != NULL)
