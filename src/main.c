@@ -14,13 +14,13 @@
 #include "player.h"
 #include "map.h"
 #include "parser/parser.h"
-
 #include <stdio.h>
 
 int	main(void)
 {
 	t_map		map;
 	t_player	player;
+	t_game		game;
 
 	printf("%i\n", parse_file("maps/example_map.cub", &map, &player));
 	printf("%f, %f\n", player.x, player.y);
@@ -33,6 +33,10 @@ int	main(void)
 			printf("%i", map_get_tile(&map, x, y));
 		printf("\n");
 	}
+	init_game(&game, &map, &player);
+	create_map(&game, 0, 0);
+	draw_player(&game,player.x,player.y);
+	mlx_loop(game.mlx);
 	map_destruct(&map);
 	return (OK);
 }

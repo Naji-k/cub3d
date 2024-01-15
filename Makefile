@@ -19,7 +19,10 @@ RESET = \033[0m
 NAME = cub3D
 
 SRC =	src/main.c src/color.c src/map.c \
-		src/parser/parser.c
+		src/parser/parser.c \
+		src/player.c \
+		src/game.c \
+
 OBJ = $(SRC:.c=.o)
 
 LIBFT_DIR = libs/libft
