@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:34:23 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/15 14:37:37 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/15 17:04:20 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MAP_H
 
 # include <stddef.h>
+# include <stdbool.h>
 
 # include "MLX42.h"
 
@@ -43,5 +44,7 @@ typedef struct s_map
 void	map_destruct(t_map *map);
 void	map_set_tile(t_map *map, unsigned long x, unsigned long y, t_tile tile);
 t_tile	map_get_tile(t_map *map, unsigned long x, unsigned long y);
+bool	map_is_tile_on_edge(t_map *map, unsigned long x, unsigned long y);
+bool	map_is_closed(t_map *map);
 
 #endif

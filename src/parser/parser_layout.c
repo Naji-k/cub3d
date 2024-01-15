@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 13:16:56 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/15 14:57:07 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/15 15:36:46 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static t_error	read_map_lines(int file, t_list **lines, size_t *longest)
 			break ;
 		if (current_line[0] != '\n')
 			break ;
-		free (current_line);
+		free(current_line);
 	}
 	while (current_line != NULL)
 	{
