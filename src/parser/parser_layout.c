@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 13:16:56 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/15 13:17:19 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/15 14:57:07 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,12 @@
 
 #include "parser.h"
 
-t_error	parse_layout(int file, t_map *map, t_player *player)
+static t_error	read_map_lines(int file, t_list **lines, size_t *longest)
 {
-	char			*current_line;
-	t_list			*lines;
-	t_list			*current_node;
-	unsigned long	x;
-	unsigned long	y;
+	char	*current_line;
+	t_list	*current_node;
 
+	*lines = NULL;
 	while (true)
 	{
 		current_line = get_next_line(file);
@@ -50,62 +48,95 @@ t_error	parse_layout(int file, t_map *map, t_player *player)
 	{
 		current_node = ft_lstnew(current_line);
 		if (current_node == NULL)
-			return (ft_lstclear(&lines, free), ERR_MALLOC);
-		ft_lstadd_back(&lines, current_node);
+			return (ft_lstclear(lines, free), ERR_MALLOC);
+		ft_lstadd_back(lines, current_node);
+		if (ft_strlen(current_line) - 1 > *longest)
+			*longest = ft_strlen(current_line) - 1;
 		current_line = get_next_line(file);
 	}
-	current_node = lines;
-	while (current_node != NULL)
+	return (OK);
+}
+
+static t_error	read_player(t_player *player, char c, unsigned long pos[2])
+{
+	if (! isnan(player->x))
+		return (ERR_DUPLICATE_PLAYER);
+	player->x = pos[0];
+	player->y = pos[1];
+	if (c == 'N')
+		player->rotation = 0.0 * M_PI;
+	else if (c == 'E')
+		player->rotation = 0.5 * M_PI;
+	else if (c == 'S')
+		player->rotation = 1.0 * M_PI;
+	else if (c == 'W')
+		player->rotation = 1.5 * M_PI;
+	return (OK);
+}
+
+static t_error	read_tile(t_map *map, t_player *player, char c, \
+							unsigned long pos[2])
+{
+	if (c == ' ')
+		map_set_tile(map, pos[0], pos[1], TILE_NONE);
+	else if (c == '0')
+		map_set_tile(map, pos[0], pos[1], TILE_EMPTY);
+	else if (c == '1')
+		map_set_tile(map, pos[0], pos[1], TILE_WALL);
+	else if (c == '2')
+		map_set_tile(map, pos[0], pos[1], TILE_DOOR);
+	else if (c == 'N' || c == 'E' || c == 'S' || c == 'W')
 	{
-		if (ft_strlen(current_node->content) - 1 > map->width)
-			map->width = ft_strlen(current_node->content) - 1;
-		current_node = current_node->next;
+		map_set_tile(map, pos[0], pos[1], TILE_EMPTY);
+		return (read_player(player, c, pos));
 	}
+	else
+		return (ERR_INVALID_IDENTIFIER);
+	return (OK);
+}
+
+static t_error	fill_map(t_map *map, t_player *player, t_list *lines)
+{
+	t_error			err;
+	char			*current_line;
+	unsigned long	x;
+	unsigned long	y;
+
+	player->x = NAN;
+	y = 0;
+	while (lines != NULL)
+	{
+		x = 0;
+		current_line = lines->content;
+		while (current_line[x] != '\0' && current_line[x] != '\n')
+		{
+			err = read_tile(map, player, current_line[x], \
+							(unsigned long [2]){x, y});
+			if (err != OK)
+				return (err);
+			x++;
+		}
+		lines = lines->next;
+		y++;
+	}
+	if (player->x == NAN)
+		return (ERR_NO_PLAYER);
+	return (OK);
+}
+
+t_error	parse_layout(int file, t_map *map, t_player *player)
+{
+	t_error			err;
+	t_list			*lines;
+
+	err = read_map_lines(file, &lines, &map->width);
+	if (err != OK)
+		return (err);
 	map->height = ft_lstsize(lines);
 	map->tiles = ft_calloc(sizeof(t_tile), map->width * map->height);
 	if (map->tiles == NULL)
 		return (ft_lstclear(&lines, free), ERR_MALLOC);
-	y = 0;
-	current_node = lines;
-	player->x = NAN;
-	while (current_node != NULL)
-	{
-		x = 0;
-		current_line = current_node->content;
-		while (current_line[x] != '\0' && current_line[x] != '\n')
-		{
-			if (current_line[x] == '0' || current_line[x] == ' ')
-				map_set_tile(map, x, y, TILE_EMPTY);
-			else if (current_line[x] == '1')
-				map_set_tile(map, x, y, TILE_WALL);
-			else if (current_line[x] == '2')
-				map_set_tile(map, x, y, TILE_DOOR);
-			else if (current_line[x] == 'N' || current_line[x] == 'E' || \
-					current_line[x] == 'S' || current_line[x] == 'W')
-			{
-				if (! isnan(player->x))
-					return (ft_lstclear(&lines, free), ERR_DUPLICATE_PLAYER);
-				map_set_tile(map, x, y, TILE_EMPTY);
-				player->x = x;
-				player->y = y;
-				if (current_line[x] == 'N')
-					player->rotation = 0.0 * M_PI;
-				else if (current_line[x] == 'E')
-					player->rotation = 0.5 * M_PI;
-				else if (current_line[x] == 'S')
-					player->rotation = 1.0 * M_PI;
-				else if (current_line[x] == 'W')
-					player->rotation = 1.5 * M_PI;
-			}
-			else
-				return (ft_lstclear(&lines, free), ERR_INVALID_IDENTIFIER);
-			x++;
-		}
-		current_node = current_node->next;
-		y++;
-	}
+	err = fill_map(map, player, lines);
 	ft_lstclear(&lines, free);
-	if (player->x == NAN)
-		return (ERR_NO_PLAYER);
-	return (OK);
+	return (err);
 }

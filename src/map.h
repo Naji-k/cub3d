@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:34:23 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/15 12:35:03 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/15 14:37:37 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 
 typedef enum e_tile
 {
-	TILE_EMPTY = 0,
+	TILE_NONE = 0,
+	TILE_EMPTY,
 	TILE_WALL,
 	TILE_DOOR
 }	t_tile;

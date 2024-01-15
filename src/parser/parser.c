@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 12:13:00 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/15 13:32:04 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/15 14:26:39 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ t_error	parse_file(const char *file_path, t_map *map, t_player *player)
 {
 	t_error	err;
 	int		file;
-	
+
 	if (ft_strncmp(file_path + ft_strlen(file_path) - 4, ".cub", 5))
 		return (ERR_INVALID_EXTENSION);
 	file = open(file_path, O_RDONLY);
