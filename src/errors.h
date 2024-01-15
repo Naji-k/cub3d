@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:49:48 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/12 12:54:25 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/15 12:59:35 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ typedef enum e_error
 	ERR_DUPLICATE_TEXTURE,
 	ERR_MISSING_COLOR,
 	ERR_DUPLICATE_COLOR,
-	ERR_INVALID_IDENTIFIER
+	ERR_INVALID_IDENTIFIER,
+	ERR_DUPLICATE_PLAYER,
+	ERR_NO_PLAYER,
 }	t_error;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 12:13:00 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/15 12:33:55 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/15 13:05:42 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ t_error	parse_layout(int file, t_map *map, t_player *player)
 		return (ft_lstclear(&lines, free), ERR_MALLOC);
 	y = 0;
 	current_node = lines;
+	player->x = NAN;
 	while (current_node != NULL)
 	{
 		x = 0;
@@ -156,6 +157,8 @@ t_error	parse_layout(int file, t_map *map, t_player *player)
 			else if (current_line[x] == 'N' || current_line[x] == 'E' || \
 					current_line[x] == 'S' || current_line[x] == 'W')
 			{
+				if (! isnan(player->x))
+					return (ft_lstclear(&lines, free), ERR_DUPLICATE_PLAYER);
 				map_set_tile(map, x, y, TILE_EMPTY);
 				player->x = x;
 				player->y = y;
@@ -176,6 +179,8 @@ t_error	parse_layout(int file, t_map *map, t_player *player)
 		y++;
 	}
 	ft_lstclear(&lines, free);
+	if (player->x == NAN)
+		return (ERR_NO_PLAYER);
 	return (OK);
 }
 
