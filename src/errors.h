@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:49:48 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/15 13:30:36 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/16 13:07:46 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ typedef enum e_error
 	ERR_DUPLICATE_PLAYER,
 	ERR_NO_PLAYER,
 }	t_error;
+
+const char	*error_string(t_error err);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:54:02 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/15 17:25:07 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/16 13:18:11 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,23 @@
 
 #include <stdio.h>
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
+	t_error		err;
 	t_map		map;
 	t_player	player;
 
-	printf("parse error: %i\n", parse_file("maps/example_map.cub", &map, &player));
+	if (argc != 2)
+	{
+		printf("please input exactly 1 map!\n");
+		return (1);
+	}
+	err = parse_file(argv[1], &map, &player);
+	if (err != OK)
+	{
+		printf("Error\nParsing failed: %s!\n", error_string(err));
+		return (err);
+	}
 	printf("map is closed: %s\n", map_is_closed(&map) ? "true" : "false");
 	printf("player position: %.1f, %.1f\n", player.x, player.y);
 	//printf("%i, %i, %i\n", map.floor_color.r, map.floor_color.g, map.floor_color.b);
