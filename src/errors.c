@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/16 13:07:04 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/16 13:25:41 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/16 13:33:35 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include "errors.h"
 
-static const char const	*g_error_strings[] = {
+static const char	*g_error_strings[] = {
 [OK] = "",
 [ERR_MALLOC] = "out of memory",
 [ERR_OPEN] = "failed to open file",

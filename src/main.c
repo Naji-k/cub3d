@@ -6,16 +6,18 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:54:02 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/16 13:18:11 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/16 13:34:12 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdio.h>
+
+#include "MLX42.h"
 
 #include "errors.h"
 #include "player.h"
 #include "map.h"
 #include "parser/parser.h"
-
-#include <stdio.h>
 
 int	main(int argc, char *argv[])
 {
@@ -34,7 +36,12 @@ int	main(int argc, char *argv[])
 		printf("Error\nParsing failed: %s!\n", error_string(err));
 		return (err);
 	}
-	printf("map is closed: %s\n", map_is_closed(&map) ? "true" : "false");
+	if (map_is_closed(&map) == false)
+	{
+		printf("Error\nThe parsed map is not closed!\n");
+		map_destruct(&map);
+		return (1);
+	}
 	printf("player position: %.1f, %.1f\n", player.x, player.y);
 	//printf("%i, %i, %i\n", map.floor_color.r, map.floor_color.g, map.floor_color.b);
 	//printf("%i, %i, %i\n", map.ceiling_color.r, map.ceiling_color.g, map.ceiling_color.b);
