@@ -39,13 +39,13 @@ t_error draw_player(t_game *game, float pos_x, float pos_y)
 
 t_error find_intersection(t_game *game)
 {
-	float			p_x;
-	float			p_y;
-	int x;
+	// float			p_x;
+	// float			p_y;
+	// int x;
 	
-	x = 0;
-	p_x = game->player->player_image->instances[0].x + (game->player->size / 2);
-	p_y = game->player->player_image->instances[0].y + (game->player->size / 2);
+	// x = 0;
+	// p_x = game->player->player_image->instances[0].x + (game->player->size / 2);
+	// p_y = game->player->player_image->instances[0].y + (game->player->size / 2);
 	game->player->player_lines = mlx_new_image(game->mlx, game->player->ray.screenW, game->player->ray.screenW);
 	game->player->wall = mlx_new_image(game->mlx, game->player->ray.screenW, game->player->ray.screenH);
 	if (!game->player->player_lines || !game->player->wall)

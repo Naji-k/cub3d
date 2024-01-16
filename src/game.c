@@ -56,7 +56,7 @@ t_error	create_map(t_game *game, size_t x, size_t y)
 	{
 		while (x < game->map->width)
 		{
-			if (map_get_tile(game->map, x, y) == TILE_WALL)
+			if (map_get_tile(game->map, x, y) == TILE_WALL || map_get_tile(game->map, x, y) == TILE_NONE)
 				color = 0xFF000000;
 			else
 				color = 0xFFFFFFFF;
