@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:54:02 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/16 13:34:12 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/16 13:38:42 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,6 @@ int	main(int argc, char *argv[])
 		printf("Error\nThe parsed map is not closed!\n");
 		map_destruct(&map);
 		return (1);
-	}
-	printf("player position: %.1f, %.1f\n", player.x, player.y);
-	//printf("%i, %i, %i\n", map.floor_color.r, map.floor_color.g, map.floor_color.b);
-	//printf("%i, %i, %i\n", map.ceiling_color.r, map.ceiling_color.g, map.ceiling_color.b);
-	printf("map size: %lu, %lu\n", map.width, map.height);
-	printf("\n");
-	for (size_t y = 0; y < map.height; y++)
-	{
-		for (size_t x = 0; x < map.width; x++)
-		{
-			switch (map_get_tile(&map, x, y))
-			{
-				case TILE_NONE:
-				case TILE_EMPTY:
-					printf(" ");
-					break;
-				case TILE_WALL:
-					printf("#");
-					break;
-				default:
-					printf("!");
-			}
-		}
-		printf("\n");
 	}
 	map_destruct(&map);
 	return (OK);
