@@ -15,7 +15,7 @@
 #include "MLX42.h"
 
 #include "errors.h"
-#include "player.h"
+#include "game.h"
 #include "map.h"
 #include "parser/parser.h"
 

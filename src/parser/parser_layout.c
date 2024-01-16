@@ -63,13 +63,13 @@ static t_error	read_player(t_player *player, char c, unsigned long pos[2])
 		return (ERR_DUPLICATE_PLAYER);
 	player->x = pos[0];
 	player->y = pos[1];
-	if (c == 'N')
+	if (c == 'E')
 		player->rotation = 0.0 * M_PI;
-	else if (c == 'E')
+	else if (c == 'N')
 		player->rotation = 0.5 * M_PI;
-	else if (c == 'S')
-		player->rotation = 1.0 * M_PI;
 	else if (c == 'W')
+		player->rotation = 1.0 * M_PI;
+	else if (c == 'S')
 		player->rotation = 1.5 * M_PI;
 	return (OK);
 }

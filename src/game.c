@@ -12,7 +12,7 @@
 
 #include <math.h>
 #include <MLX42.h>
-#include <player.h>
+#include <game.h>
 
 /// @brief put_pixel for TILES 
 /// @param img mini_map_image
