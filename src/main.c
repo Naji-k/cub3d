@@ -24,6 +24,7 @@ int	main(int argc, char *argv[])
 	t_error		err;
 	t_map		map;
 	t_player	player;
+	t_game		game;
 
 	if (argc != 2)
 	{
@@ -42,6 +43,10 @@ int	main(int argc, char *argv[])
 		map_destruct(&map);
 		return (1);
 	}
+	init_game(&game, &map, &player);
+	create_map(&game, 0, 0);
+	draw_player(&game,player.x,player.y);
+	mlx_loop(game.mlx);
 	map_destruct(&map);
 	return (OK);
 }
