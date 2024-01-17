@@ -13,6 +13,7 @@
 #ifndef RAY_Y
 # define RAY_Y
 
+
 typedef struct s_rays
 {
 	double	ray_angle;
@@ -22,6 +23,8 @@ typedef struct s_rays
 	float	y_target;
 	float	xs;
 	float	ys;
+	float	end_x;
+	float	end_y;
 	int		ver_x;
 	int		ver_y;
 	int		hor_x;
