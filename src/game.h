@@ -34,7 +34,7 @@ int				draw_line(mlx_image_t *image, int startX, int startY, int endX,
 //utils
 double			degree_to_rad(float deg);
 float			dist(float ax, float ay, float bx, float by);
-void			fix_angle(float *angle);
+void			fix_angle(float angle);
 
 
 void	key_hook(mlx_key_data_t key, void *param);
