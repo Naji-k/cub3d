@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/15 14:13:56 by nakanoun      ########   odam.nl         */
+/*   Updated: 2024/01/17 16:38:14 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,12 @@ t_error	ray_casting(t_map *map, t_player *player)
 	float	p_x;
 	float	p_y;
 	int		x;
+	mlx_texture_t	*texture;
+	uint32_t		texture_y;
+	uint32_t		texture_x;
+	float			step_size;
+	t_color			color;
+	uint8_t			tmp;
 
 	x = 0;
 	p_x = player->player_image->instances[0].x + (player->size / 2);
@@ -87,10 +93,45 @@ t_error	ray_casting(t_map *map, t_player *player)
 		h_intersection(map, player, p_x, p_y);
 		if (find_nearest_wall(player) == true)
 			draw_line(player->player_lines, (int)p_x, (int)p_y,
-				(int)player->ray.end_x, (int)player->ray.end_y);
+				(int)player->ray.end_x, (int)player->ray.end_y, \
+				(t_color){.raw = 0xFF0000FF});
 		player->ray.lineO = (player->ray.screenH / 2) - (player->ray.lineH / 2);
-		draw_line(player->wall, x, player->ray.lineO, x, player->ray.lineO
-			+ player->ray.lineH);
+		draw_line(player->wall, x, 0, x, player->ray.lineO, map->ceiling_color);
+
+		if (player->ray.distance_h < player->ray.distance_v)
+		{
+			if (player->y > player->ray.end_y)
+				texture = map->north_texture;
+			else
+				texture = map->south_texture;
+			texture_x = (uint32_t)((player->ray.end_x  / TILE_SIZE - floorf(player->ray.end_x / TILE_SIZE)) * texture->width);
+		}
+		else
+		{
+			if (player->x > player->ray.end_x)
+				texture = map->east_texture;
+			else
+				texture = map->west_texture;
+			texture_x = (uint32_t)((player->ray.end_y  / TILE_SIZE - floorf(player->ray.end_y / TILE_SIZE)) * texture->width);
+		}
+		step_size = player->ray.lineH / texture->height;
+		texture_y = 0;
+		while (texture_y < texture->height)
+		{
+			color = (t_color){.raw = ((int32_t *)texture->pixels)[ \
+					texture->height * texture_y + texture_x]};
+			tmp = color.b;
+			color.b = color.g;
+			color.g = tmp;
+			draw_line(player->wall, x, \
+				player->ray.lineO + step_size * texture_y, x, \
+				player->ray.lineO + step_size * texture_y + step_size,
+				color);
+			texture_y += 1;
+		}
+
+		draw_line(player->wall, x, player->ray.lineO + player->ray.lineH, x, \
+					player->ray.screenH, map->floor_color);
 		x++;
 		player->ray.ray_angle += degree_to_rad(player->fov) / 640;
 		fix_angle(&player->ray.ray_angle);

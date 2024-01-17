@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 14:29:54 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/11 15:14:50 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/17 15:33:11 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_error	asci_to_color_rgb(t_color *color, char *string)
 			{
 				if (i < 2)
 					return (ERR_COLOR_TOO_LITTLE_VALUES);
+				color->a = 255;
 				return (OK);
 			}
 			string++;

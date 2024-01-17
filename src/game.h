@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/16 16:03:36 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/17 14:02:30 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/17 15:23:39 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_error			init_player_images(t_game *game);
 void			game_loop(t_game *game);
 
 int				draw_line(mlx_image_t *image, int startX, int startY, int endX,
-					int endY);
+					int endY, t_color color);
 //utils
 double			degree_to_rad(float deg);
 float			dist(float ax, float ay, float bx, float by);
