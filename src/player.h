@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 12:07:29 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/11 12:10:07 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/17 14:14:21 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,5 @@ float			h_intersection(t_map *map, t_player *player, float p_x,
 					float p_y);
 float			v_intersection(t_map *map, t_player *player, float p_x,
 					float p_y);
-bool			find_nearest_wall(t_player *player);
 
 #endif

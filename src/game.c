@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/15 14:32:03 by nakanoun      ########   odam.nl         */
+/*   Updated: 2024/01/17 14:03:14 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,21 @@ t_error init_game(t_game *game, t_map *map, t_player *player)
 	game->player->size = 16;
 	game->player->fov = 60;
 	return (OK);
+}
+
+void	game_loop(void *param)
+{
+	t_game	*game;
+	
+	game = param;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(game->mlx);
+	// if (mlx_is_key_down(param, MLX_KEY_UP))
+	// 	g_img->instances[0].y -= 5;
+	// if (mlx_is_key_down(param, MLX_KEY_DOWN))
+	// 	g_img->instances[0].y += 5;
+	// if (mlx_is_key_down(param, MLX_KEY_LEFT))
+	// 	g_img->instances[0].x -= 5;
+	// if (mlx_is_key_down(param, MLX_KEY_RIGHT))
+	// 	g_img->instances[0].x += 5;
 }

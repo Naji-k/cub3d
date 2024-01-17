@@ -6,13 +6,14 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:18:37 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/15 14:18:37 by nakanoun      ########   odam.nl         */
+/*   Updated: 2024/01/17 14:14:16 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RAY_Y
 # define RAY_Y
 
+typedef struct s_player	t_player;
 
 typedef struct s_rays
 {
@@ -34,5 +35,7 @@ typedef struct s_rays
 	int		screenH;
 	int		screenW;
 }			t_ray;
+
+bool			find_nearest_wall(t_player *player);
 
 #endif
