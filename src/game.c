@@ -10,17 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
 #include <MLX42.h>
 #include <game.h>
+#include <math.h>
+#include <stdio.h>
 
-/// @brief put_pixel for TILES 
+/// @brief put_pixel for TILES
 /// @param img mini_map_image
-/// @param color 
+/// @param color
 void	draw_pixels(mlx_image_t *img, uint32_t color, size_t size)
 {
-	size_t			tx;
-	size_t			ty;
+	size_t		tx;
+	size_t		ty;
 	uint32_t	og_color;
 
 	tx = 0;
@@ -41,22 +42,25 @@ void	draw_pixels(mlx_image_t *img, uint32_t color, size_t size)
 		ty++;
 	}
 }
-/// @brief create mini_map_image as (TILE_SIZE = 32) in mlx window by looping in the whole map,
+
+/// @brief create mini_map_image as (TILE_SIZE = 32)
+/// in mlx window by looping in the whole map,
 /// make the walls as black, and empty spaces as white
-/// @param game 
+/// @param game
 /// @param x 0, base point to the map just to save some lines
 /// @param y 0, base point to the map just to save some lines
 /// @return error when mlx fails || ok
 t_error	create_map(t_game *game, size_t x, size_t y)
 {
-	uint32_t color;
-	mlx_image_t *mini_map_image;
+	uint32_t	color;
+	mlx_image_t	*mini_map_image;
 
 	while (y < game->map->height)
 	{
 		while (x < game->map->width)
 		{
-			if (map_get_tile(game->map, x, y) == TILE_WALL || map_get_tile(game->map, x, y) == TILE_NONE)
+			if (map_get_tile(game->map, x, y) == TILE_WALL
+				|| map_get_tile(game->map, x, y) == TILE_NONE)
 				color = 0xFF000000;
 			else
 				color = 0xFFFFFFFF;
@@ -64,7 +68,8 @@ t_error	create_map(t_game *game, size_t x, size_t y)
 			if (!mini_map_image)
 				return (ERR_MLX);
 			draw_pixels(mini_map_image, color, TILE_SIZE);
-			if (mlx_image_to_window(game->mlx, mini_map_image, x * (TILE_SIZE),y * (TILE_SIZE)) < 0)
+			if (mlx_image_to_window(game->mlx, mini_map_image, x * (TILE_SIZE),
+					y * (TILE_SIZE)) < 0)
 				return (ERR_MLX);
 			x++;
 		}
@@ -73,18 +78,23 @@ t_error	create_map(t_game *game, size_t x, size_t y)
 	}
 	return (OK);
 }
-/// @brief link map,player,mlx to game struct and create mlx_init with map_width * 2 
+
+/// @brief link map,player,mlx to game struct and create mlx_init with map_width
 /// divide it to game 3d and map view
 ///assign values to player: delta_x, delta_y
-/// @param game 
-/// @param map 
-/// @param player 
-/// @return 
-t_error init_game(t_game *game, t_map *map, t_player *player)
+/// @param game
+/// @param map
+/// @param player
+/// @return
+t_error	init_game(t_game *game, t_map *map, t_player *player)
 {
+	t_move_direction player_move;
+
+	player_move = NONE;
 	game->map = map;
 	game->player = player;
-	game->mlx = mlx_init(2 * (TILE_SIZE)*game->map->width, (TILE_SIZE)*game->map->height, "Map", true);
+	game->mlx = mlx_init(2 * (TILE_SIZE) * game->map->width, \
+		(TILE_SIZE) * game->map->height, "Map", true);
 	if (!game->mlx)
 		return (ERR_MLX);
 	game->player->delta_x = cos(player->rotation) * 5;
@@ -93,22 +103,77 @@ t_error init_game(t_game *game, t_map *map, t_player *player)
 	game->player->ray.screenH = map->height * TILE_SIZE;
 	game->player->size = 16;
 	game->player->fov = 60;
+	game->player->current_move = player_move;
 	return (OK);
 }
 
-void	game_loop(void *param)
+void	key_hook(mlx_key_data_t key, void *param)
 {
 	t_game	*game;
-	
+
 	game = param;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
-	// if (mlx_is_key_down(param, MLX_KEY_UP))
-	// 	g_img->instances[0].y -= 5;
-	// if (mlx_is_key_down(param, MLX_KEY_DOWN))
-	// 	g_img->instances[0].y += 5;
-	// if (mlx_is_key_down(param, MLX_KEY_LEFT))
-	// 	g_img->instances[0].x -= 5;
-	// if (mlx_is_key_down(param, MLX_KEY_RIGHT))
-	// 	g_img->instances[0].x += 5;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
+		game->player->current_move = MOVE_FORWARD;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
+		game->player->current_move = MOVE_FORWARD;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+		game->player->current_move = ROTATE_RIGHT;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+		game->player->current_move = ROTATE_LEFT;
+	rotate_player(game->player);
+	move_player(game->player);
+	game->player->current_move = NONE;
+	game_loop(game);
+	(void)key;
+}
+
+void move_player(t_player *player)
+{
+	float		x;
+	float		y;
+
+	x = player->player_image->instances[0].x;
+	y = player->player_image->instances[0].y;
+	printf("playerOld x=%f y=%f\n", player->x, player->y);
+	if (player->current_move == MOVE_FORWARD || player->current_move == MOVE_BACKWARD)
+	{
+		if (player->current_move == MOVE_FORWARD)
+		{
+			y += player->delta_y;
+			x += player->delta_x;
+		}
+		if (player->current_move == MOVE_BACKWARD)
+		{
+			y -= player->delta_y;
+			x -= player->delta_x;
+		}
+		player->x = x;
+		player->y = y;
+		printf("playerNEW x=%f y=%f\n", player->x, player->y);
+	}
+}
+void rotate_player(t_player *player)
+{
+	if (player->current_move == ROTATE_LEFT || player->current_move == ROTATE_RIGHT)
+	{
+		if (player->current_move == ROTATE_LEFT)
+		{
+			player->rotation += 0.1;
+		} else if (player->current_move == ROTATE_RIGHT)
+		{
+			player->rotation -= 0.1;
+		}
+		fix_angle(&player->rotation);
+		player->delta_x = cos(player->rotation) * 5;
+		player->delta_y = -sin(player->rotation) * 5;
+	}
+}
+void	game_loop(t_game *game)
+{
+	mlx_delete_image(game->mlx, game->player->player_lines);
+	mlx_delete_image(game->mlx, game->player->wall);
+	mlx_delete_image(game->mlx, game->player->player_image);
+	draw_player(game, game->player->x, game->player->y);
 }

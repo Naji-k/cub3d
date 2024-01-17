@@ -29,7 +29,7 @@ float h_intersection(t_map *map,t_player *player, float p_x, float p_y)
 	{
 		xn = p_x;
 		yn = p_y;
-		return (10000);
+		return (INFINITY);
 	}
 	if (angle > 0 && angle < M_PI_2)
 	{//Q1
@@ -82,7 +82,7 @@ float h_intersection(t_map *map,t_player *player, float p_x, float p_y)
 		x_target += xs;
 	}
 
-	return(10000);
+	return(INFINITY);
 }
 //find vertical intersection
 float v_intersection(t_map *map,t_player *player, float p_x, float p_y)
@@ -100,7 +100,7 @@ float v_intersection(t_map *map,t_player *player, float p_x, float p_y)
 	{
 		xn = p_x;
 		yn = p_y;
-		return (100000);
+		return (INFINITY);
 	}
 	else if (angle > 0 && angle <= M_PI_2)
 	{// Q1
@@ -151,5 +151,5 @@ float v_intersection(t_map *map,t_player *player, float p_x, float p_y)
 		y_target += ys;
 		x_target += xs;
 	}
-	return (10000);
+	return (INFINITY);
 }
