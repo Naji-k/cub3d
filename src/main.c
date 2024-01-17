@@ -46,7 +46,7 @@ int	main(int argc, char *argv[])
 	init_game(&game, &map, &player);
 	create_map(&game, 0, 0);
 	draw_player(&game,player.x,player.y);
-	mlx_loop_hook(game.mlx, game_loop, &game);
+	mlx_key_hook(game.mlx, key_hook, &game);
 	mlx_loop(game.mlx);
 	map_destruct(&map);
 	return (OK);

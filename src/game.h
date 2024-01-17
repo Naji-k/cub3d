@@ -27,7 +27,10 @@ t_error			create_map(t_game *game, size_t x, size_t y);
 t_error			draw_player(t_game *game, float pos_x, float pos_y);
 t_error			init_player_images(t_game *game);
 
-void			game_loop(void *param);
+void			game_loop(t_game *game);
+void			rotate_player(t_player *player);
+void			move_player(t_player *player);
+void			key_hook(mlx_key_data_t key, void *param);
 
 int				draw_line(mlx_image_t *image, int startX, int startY, int endX,
 					int endY);

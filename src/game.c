@@ -13,6 +13,7 @@
 #include <math.h>
 #include <MLX42.h>
 #include <game.h>
+#include <stdio.h>
 
 /// @brief put_pixel for TILES 
 /// @param img mini_map_image
@@ -96,19 +97,77 @@ t_error init_game(t_game *game, t_map *map, t_player *player)
 	return (OK);
 }
 
-void	game_loop(void *param)
+
+void	key_hook(mlx_key_data_t key, void *param)
 {
 	t_game	*game;
-	
+
 	game = param;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
-	// if (mlx_is_key_down(param, MLX_KEY_UP))
-	// 	g_img->instances[0].y -= 5;
-	// if (mlx_is_key_down(param, MLX_KEY_DOWN))
-	// 	g_img->instances[0].y += 5;
-	// if (mlx_is_key_down(param, MLX_KEY_LEFT))
-	// 	g_img->instances[0].x -= 5;
-	// if (mlx_is_key_down(param, MLX_KEY_RIGHT))
-	// 	g_img->instances[0].x += 5;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
+		game->player->current_move = MOVE_FORWARD;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
+		game->player->current_move = MOVE_BACKWARD;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+		game->player->current_move = ROTATE_RIGHT;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+		game->player->current_move = ROTATE_LEFT;
+	rotate_player(game->player);
+	move_player(game->player);
+	game->player->current_move = NONE;
+	game_loop(game);
+	(void)key;
+}
+
+void move_player(t_player *player)
+{
+	float		x;
+	float		y;
+
+	printf("playerOld x=%f y=%f\n deltaX=%f deltaY=%f\n", player->x, player->y, player->delta_x, player->delta_y);
+	x = player->player_image->instances[0].x;
+	y = player->player_image->instances[0].y;
+	if (player->current_move == MOVE_FORWARD || player->current_move == MOVE_BACKWARD)
+	{
+		if (player->current_move == MOVE_FORWARD)
+		{
+			y += player->delta_y;
+			x += player->delta_x;
+		}
+		if (player->current_move == MOVE_BACKWARD)
+		{
+			y -= player->delta_y;
+			x -= player->delta_x;
+		}
+		player->x = x / TILE_SIZE;
+		player->y = y / TILE_SIZE;
+		printf("playerNEW x=%f y=%f\n", player->x, player->y);
+	}
+}
+void rotate_player(t_player *player)
+{
+	if (player->current_move == ROTATE_LEFT || player->current_move == ROTATE_RIGHT)
+	{
+		if (player->current_move == ROTATE_LEFT)
+		{
+			player->rotation += 0.1;
+			if (player->rotation >= 2 * M_PI)
+				player->rotation -= 2 *M_PI;
+		} else if (player->current_move == ROTATE_RIGHT)
+		{
+			player->rotation -= 0.1;
+			if (player->rotation <= 0)
+				player->rotation += (2 * M_PI);
+		}
+		player->delta_x = cos(player->rotation) * 5;
+		player->delta_y = -sin(player->rotation) * 5;
+	}
+}
+void	game_loop(t_game *game)
+{
+	mlx_delete_image(game->mlx, game->player->wall);
+	mlx_delete_image(game->mlx, game->player->player_lines);
+	mlx_delete_image(game->mlx, game->player->player_image);
+	draw_player(game, game->player->x, game->player->y);
 }
