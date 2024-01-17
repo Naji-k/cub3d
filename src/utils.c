@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/16 17:54:28 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/16 17:54:28 by nakanoun      ########   odam.nl         */
+/*   Updated: 2024/01/17 15:24:01 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	fix_angle(float angle)
 /// @param endX X pos for the 2nd point (end point)
 /// @param endY Y pos for the 2nd point (end point)
 /// @return
-int	draw_line(mlx_image_t *image, int startX, int startY, int endX, int endY)
+int	draw_line(mlx_image_t *image, int startX, int startY, int endX, int endY, \
+				t_color color)
 {
 	int	dx;
 	int	dy;
@@ -53,7 +54,7 @@ int	draw_line(mlx_image_t *image, int startX, int startY, int endX, int endY)
 	int	error;
 	int	error2;
 
-	mlx_put_pixel(image, startX, startY, 0xFF0000FF);
+	mlx_put_pixel(image, startX, startY, color.raw);
 	dx = abs(endX - startX);
 	dy = abs(endY - startY);
 	sx = (startX < endX) ? 1 : -1;
@@ -61,7 +62,7 @@ int	draw_line(mlx_image_t *image, int startX, int startY, int endX, int endY)
 	error = dx - dy;
 	while ((startX != endX || startY != endY))
 	{
-		mlx_put_pixel(image, startX, startY, 0xFF0000FF);
+		mlx_put_pixel(image, startX, startY, color.raw);
 		error2 = error * 2;
 		if (error2 > -dy)
 		{
