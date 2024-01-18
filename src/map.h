@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:34:23 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/15 17:04:20 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/18 17:35:50 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,14 @@ typedef struct s_map
 	mlx_texture_t	*east_texture;
 	mlx_texture_t	*south_texture;
 	mlx_texture_t	*west_texture;
+	mlx_texture_t	*door1_texture;
+	mlx_texture_t	*door2_texture;
 	t_color			floor_color;
 	t_color			ceiling_color;
 	size_t			width;
 	size_t			height;
+	bool			has_doors;
+	bool			doors_open;
 	t_tile			*tiles;
 }	t_map;
 
