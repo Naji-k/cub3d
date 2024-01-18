@@ -35,9 +35,7 @@ t_error	draw_player(t_game *game, float pos_x, float pos_y)
 	player->y = pos_y;
 	player->ray.distance_h = INFINITY;
 	player->ray.distance_v = INFINITY;
-	// printf("player_rotation=%f\n", player->rotation);
 	player->ray.ray_angle = player->rotation - (degree_to_rad(60) / 2);
-	printf("angle=%f\n", player->ray.ray_angle);
 	fix_angle(player->ray.ray_angle);
 	draw_pixels(player->player_image, 0x00bb00FF, player->size);
 	if (mlx_image_to_window(game->mlx, player->player_image, player->x

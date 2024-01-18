@@ -97,8 +97,8 @@ t_error	init_game(t_game *game, t_map *map, t_player *player)
 		(TILE_SIZE) * game->map->height, "Map", true);
 	if (!game->mlx)
 		return (ERR_MLX);
-	game->player->delta_x = cos(player->rotation) * 5;
-	game->player->delta_y = -sin(player->rotation) * 5;
+	game->player->delta_x = cos(player->rotation) * 0.1;
+	game->player->delta_y = -sin(player->rotation) * 0.1;
 	game->player->ray.screenW = map->width * TILE_SIZE;
 	game->player->ray.screenH = map->height * TILE_SIZE;
 	game->player->size = 16;
@@ -118,6 +118,10 @@ void	key_hook(mlx_key_data_t key, void *param)
 		game->player->current_move = MOVE_FORWARD;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
 		game->player->current_move = MOVE_BACKWARD;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
+		game->player->current_move = MOVE_LEFT;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
+		game->player->current_move = MOVE_RIGHT;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
 		game->player->current_move = ROTATE_LEFT;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
@@ -134,9 +138,10 @@ void move_player(t_player *player)
 	float		x;
 	float		y;
 
-	printf("playerOld x=%f y=%f\n deltaX=%f deltaY=%f\n", player->x, player->y, player->delta_x, player->delta_y);
-	x = player->player_image->instances[0].x;
-	y = player->player_image->instances[0].y;
+	// x = player->player_image->instances[0].x;
+	// y = player->player_image->instances[0].y;
+	x = player->x;
+	y = player->y;
 	if (player->current_move == MOVE_FORWARD || player->current_move == MOVE_BACKWARD)
 	{
 		if (player->current_move == MOVE_FORWARD)
@@ -149,11 +154,24 @@ void move_player(t_player *player)
 			y -= player->delta_y;
 			x -= player->delta_x;
 		}
-		player->x = x / TILE_SIZE;
-		player->y = y / TILE_SIZE;
-		printf("playerNEW x=%f y=%f\n", player->x, player->y);
+	} else if (player->current_move == MOVE_LEFT || player->current_move == MOVE_RIGHT)
+	{
+		if (player->current_move == MOVE_RIGHT)
+		{
+			x += player->delta_y; 
+    		y -= player->delta_x; 
+
+		}
+		if (player->current_move == MOVE_LEFT)
+		{
+ 			x -= player->delta_y;
+    		y += player->delta_x; 
+		}
 	}
+	player->x = x ;
+	player->y = y ;
 }
+
 void rotate_player(t_player *player)
 {
 	if (player->current_move == ROTATE_LEFT || player->current_move == ROTATE_RIGHT)
@@ -169,8 +187,8 @@ void rotate_player(t_player *player)
 			if (player->rotation <= 0)
 				player->rotation += (2 * M_PI);
 		}
-		player->delta_x = cos(player->rotation) * 5;
-		player->delta_y = -sin(player->rotation) * 5;
+		player->delta_x = cos(player->rotation) * 0.1;
+		player->delta_y = -sin(player->rotation) * 0.1;
 	}
 }
 void	game_loop(t_game *game)
