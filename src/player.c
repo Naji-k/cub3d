@@ -92,10 +92,9 @@ t_error	ray_casting(t_map *map, t_player *player)
 		v_intersection(map, player, p_x, p_y);
 		h_intersection(map, player, p_x, p_y);
 		if (find_nearest_wall(player) == true)
-		;
-			// draw_line(player->player_lines, (int)p_x, (int)p_y,
-			// 	(int)player->ray.end_x, (int)player->ray.end_y, \
-			// 	(t_color){.raw = 0xFF0000FF});
+			draw_line(player->player_lines, (int)p_x, (int)p_y,
+				(int)player->ray.end_x, (int)player->ray.end_y, \
+				(t_color){.raw = 0xFF0000FF});
 		player->ray.lineO = (player->ray.screenH / 2) - (player->ray.lineH / 2);
 		draw_line(player->wall, x, 0, x, player->ray.lineO, map->ceiling_color);
 
