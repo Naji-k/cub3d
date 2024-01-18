@@ -119,9 +119,9 @@ void	key_hook(mlx_key_data_t key, void *param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
 		game->player->current_move = MOVE_BACKWARD;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
-		game->player->current_move = ROTATE_RIGHT;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		game->player->current_move = ROTATE_LEFT;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+		game->player->current_move = ROTATE_RIGHT;
 	rotate_player(game->player);
 	move_player(game->player);
 	game->player->current_move = NONE;
