@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/16 17:54:28 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/17 15:24:01 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/18 13:29:04 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,22 @@ int	draw_line(mlx_image_t *image, int startX, int startY, int endX, int endY, \
 	int	error;
 	int	error2;
 
+	if (startX < 0)
+		startX = 0;
+	if (startY < 0)
+		startY = 0;
+	if (startX >= (int) image->width)
+		startX = (int) image->width - 1;
+	if (startY >= (int) image->height)
+		startY = (int) image->height - 1;
+	if (endX < 0)
+		endX = 0;
+	if (endY < 0)
+		endY = 0;
+	if (startX >= (int) image->width)
+		startX =(int)  image->width - 1;
+	if (endY >= (int) image->height)
+		endY = (int) image->height - 1;
 	mlx_put_pixel(image, startX, startY, color.raw);
 	dx = abs(endX - startX);
 	dy = abs(endY - startY);
