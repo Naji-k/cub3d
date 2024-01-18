@@ -117,7 +117,7 @@ void	key_hook(mlx_key_data_t key, void *param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
 		game->player->current_move = MOVE_FORWARD;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
-		game->player->current_move = MOVE_FORWARD;
+		game->player->current_move = MOVE_BACKWARD;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
 		game->player->current_move = ROTATE_RIGHT;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
@@ -134,9 +134,9 @@ void move_player(t_player *player)
 	float		x;
 	float		y;
 
+	printf("playerOld x=%f y=%f\n deltaX=%f deltaY=%f\n", player->x, player->y, player->delta_x, player->delta_y);
 	x = player->player_image->instances[0].x;
 	y = player->player_image->instances[0].y;
-	printf("playerOld x=%f y=%f\n", player->x, player->y);
 	if (player->current_move == MOVE_FORWARD || player->current_move == MOVE_BACKWARD)
 	{
 		if (player->current_move == MOVE_FORWARD)
@@ -149,8 +149,8 @@ void move_player(t_player *player)
 			y -= player->delta_y;
 			x -= player->delta_x;
 		}
-		player->x = x;
-		player->y = y;
+		player->x = x / TILE_SIZE;
+		player->y = y / TILE_SIZE;
 		printf("playerNEW x=%f y=%f\n", player->x, player->y);
 	}
 }
@@ -161,19 +161,22 @@ void rotate_player(t_player *player)
 		if (player->current_move == ROTATE_LEFT)
 		{
 			player->rotation += 0.1;
+			if (player->rotation >= 2 * M_PI)
+				player->rotation -= 2 *M_PI;
 		} else if (player->current_move == ROTATE_RIGHT)
 		{
 			player->rotation -= 0.1;
+			if (player->rotation <= 0)
+				player->rotation += (2 * M_PI);
 		}
-		fix_angle(&player->rotation);
 		player->delta_x = cos(player->rotation) * 5;
 		player->delta_y = -sin(player->rotation) * 5;
 	}
 }
 void	game_loop(t_game *game)
 {
-	mlx_delete_image(game->mlx, game->player->player_lines);
 	mlx_delete_image(game->mlx, game->player->wall);
+	mlx_delete_image(game->mlx, game->player->player_lines);
 	mlx_delete_image(game->mlx, game->player->player_image);
 	draw_player(game, game->player->x, game->player->y);
 }
