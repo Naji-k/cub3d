@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/18 15:29:05 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/18 15:47:16 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,8 +162,6 @@ bool	find_nearest_wall(t_player *player)
 				- player->ray.ray_angle);
 		//cal the wall_H
 		player->ray.lineH = TILE_SIZE / distance * 554;
-		if (player->ray.lineH > player->ray.screenH)
-			player->ray.lineH = player->ray.screenH;
 	}
 	else
 	{
@@ -173,8 +171,6 @@ bool	find_nearest_wall(t_player *player)
 				- player->ray.ray_angle);
 		//wall_H
 		player->ray.lineH = TILE_SIZE / distance * 554;
-		if (player->ray.lineH > player->ray.screenH)
-			player->ray.lineH = player->ray.screenH;
 	}
 	if (player->ray.end_x > 0 && player->ray.end_y > 0)
 		return (true);
