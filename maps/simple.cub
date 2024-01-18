@@ -1,7 +1,7 @@
-NO maps/wall.png
-SO maps/wall2.png
-WE maps/wall.png
-EA maps/wall2.png
+NO maps/textures/BRICK_1A.PNG
+SO maps/textures/BRICK_1A.PNG
+EA maps/textures/BRICK_1A.PNG
+WE maps/textures/BRICK_1A.PNG
 
 F 220,100,0
 C 225,30,0

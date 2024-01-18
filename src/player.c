@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/17 16:38:14 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/18 15:21:48 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_error	ray_casting(t_map *map, t_player *player)
 
 		if (player->ray.distance_h < player->ray.distance_v)
 		{
-			if (player->y > player->ray.end_y)
+			if (player->x > player->ray.end_x)
 				texture = map->north_texture;
 			else
 				texture = map->south_texture;
@@ -108,7 +108,7 @@ t_error	ray_casting(t_map *map, t_player *player)
 		}
 		else
 		{
-			if (player->x > player->ray.end_x)
+			if (player->y > player->ray.end_y)
 				texture = map->east_texture;
 			else
 				texture = map->west_texture;
@@ -120,6 +120,9 @@ t_error	ray_casting(t_map *map, t_player *player)
 		{
 			color = (t_color){.raw = ((int32_t *)texture->pixels)[ \
 					texture->height * texture_y + texture_x]};
+			tmp = color.a;
+			color.a = color.r;
+			color.r = tmp;
 			tmp = color.b;
 			color.b = color.g;
 			color.g = tmp;
