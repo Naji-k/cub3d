@@ -25,7 +25,8 @@ SRC =	src/main.c src/errors.c src/color.c src/map.c \
 		src/game.c \
  		src/parser/parser_layout.c \
 		src/intersections.c \
-		src/utils.c
+		src/utils.c \
+		src/helper.c
 OBJ = $(SRC:.c=.o)
 
 LIBFT_DIR = libs/libft

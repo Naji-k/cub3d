@@ -101,8 +101,8 @@ t_error	init_game(t_game *game, t_map *map, t_player *player)
 		2 * (TILE_SIZE) * 24, "Map", true);
 	if (!game->mlx)
 		return (ERR_MLX);
-	game->player->delta_x = cos(player->rotation) * 5;
-	game->player->delta_y = -sin(player->rotation) * 5;
+	game->player->delta_x = cos(player->rotation) * MOVE_SPEED;
+	game->player->delta_y = -sin(player->rotation) * MOVE_SPEED;
 	game->player->ray.screenW = game->mlx->width;
 	game->player->ray.screenH = game->mlx->height;
 	game->player->size = 16;
@@ -202,8 +202,8 @@ void rotate_player(t_player *player)
 	if (player->current_move == ROTATE_RIGHT)
 		player->rotation += 0.1;
 	fix_angle(&player->rotation);
-	player->delta_x = cos(player->rotation) * 0.3;
-	player->delta_y = -sin(player->rotation) * 0.3;
+	player->delta_x = cos(player->rotation) * MOVE_SPEED;
+	player->delta_y = -sin(player->rotation) * MOVE_SPEED;
 }
 void	game_loop(t_game *game)
 {

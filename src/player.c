@@ -43,7 +43,7 @@ t_error	draw_player(t_game *game, float pos_x, float pos_y)
 	{
 		draw_pixels(player->player_image, (t_color){.raw = 0x00bb00FF}, player->size);
 		if (mlx_image_to_window(game->mlx, player->player_image, player->x
-			* TILE_SIZE, player->y * TILE_SIZE) == -1)
+			* TILE_SIZE - (player->size / 2), player->y * TILE_SIZE - (player->size / 2)) == -1)
 			return (ERR_MLX);
 		ray_casting(game->map, player);
 	}
