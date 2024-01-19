@@ -104,6 +104,7 @@ t_error	init_game(t_game *game, t_map *map, t_player *player)
 	game->player->size = 16;
 	game->player->fov = 60;
 	game->player->current_move = player_move;
+	player->direction = get_player_direction(player->rotation);
 	return (OK);
 }
 
@@ -127,32 +128,42 @@ void	key_hook(mlx_key_data_t key, void *param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		game->player->current_move = ROTATE_RIGHT;
 	rotate_player(game->player);
-	move_player(game->player);
+	move_player(game->player, game->map);
 	game->player->current_move = NONE;
 	game_loop(game);
 	(void)key;
 }
 
-void move_player(t_player *player)
+
+void move_player(t_player *player, t_map* map)
 {
 	float		x;
 	float		y;
 
-	// x = player->player_image->instances[0].x;
-	// y = player->player_image->instances[0].y;
-	x = player->x;
-	y = player->y;
+
+	x = player->x ;
+	y = player->y ;
 	if (player->current_move == MOVE_FORWARD || player->current_move == MOVE_BACKWARD)
 	{
 		if (player->current_move == MOVE_FORWARD)
 		{
 			y += player->delta_y;
 			x += player->delta_x;
+			if (map_get_tile(map, x + player->delta_x, y + player->delta_y) != TILE_WALL)
+			{
+				player->x = x ;
+				player->y = y ;
+			}
 		}
 		if (player->current_move == MOVE_BACKWARD)
 		{
 			y -= player->delta_y;
 			x -= player->delta_x;
+			if (map_get_tile(map, x - player->delta_x, y - player->delta_y) != TILE_WALL)
+			{
+				player->x = x ;
+				player->y = y ;
+			}
 		}
 	} else if (player->current_move == MOVE_LEFT || player->current_move == MOVE_RIGHT)
 	{
@@ -160,16 +171,24 @@ void move_player(t_player *player)
 		{
 			x += player->delta_y; 
     		y -= player->delta_x; 
+			if (map_get_tile(map, x + player->delta_x, y - player->delta_y) != TILE_WALL)
+			{
+				player->x = x ;
+				player->y = y ;
+			}
 
 		}
 		if (player->current_move == MOVE_LEFT)
 		{
  			x -= player->delta_y;
-    		y += player->delta_x; 
+    		y += player->delta_x;
+			if (map_get_tile(map, x - player->delta_x, y + player->delta_y) != TILE_WALL)
+			{
+				player->x = x ;
+				player->y = y ;
+			}
 		}
 	}
-	player->x = x ;
-	player->y = y ;
 }
 
 void rotate_player(t_player *player)
@@ -189,6 +208,7 @@ void rotate_player(t_player *player)
 		}
 		player->delta_x = cos(player->rotation) * 0.1;
 		player->delta_y = -sin(player->rotation) * 0.1;
+		player->direction =  get_player_direction(player->rotation);
 	}
 }
 void	game_loop(t_game *game)

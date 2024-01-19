@@ -18,6 +18,14 @@
 
 # define TILE_SIZE 32
 
+typedef enum e_player_direction
+{
+	NORTH,
+	EAST,
+	SOUTH,
+	WEST,
+}	t_player_direction;
+
 typedef enum e_move_direction
 {
 	NONE = 0,
@@ -43,6 +51,7 @@ typedef struct s_player
 	int					size;
 	t_ray				ray;
 	t_move_direction	current_move;
+	t_player_direction	direction;
 }						t_player;
 
 void					draw_pixels(mlx_image_t *img, uint32_t color,
@@ -55,6 +64,12 @@ float					v_intersection(t_map *map, t_player *player, float p_x,
 							float p_y);
 
 void					rotate_player(t_player *player);
-void					move_player(t_player *player);
+void					move_player(t_player *player, t_map* map);
+
+
+
+//helpers UN-used functions but implement it while checking walls 
+t_player_direction		get_player_direction(double angle);
+int can_move_to(t_player *player, t_map* map, float newX, float newY);
 
 #endif

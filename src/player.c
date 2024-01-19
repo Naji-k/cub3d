@@ -40,7 +40,7 @@ t_error	draw_player(t_game *game, float pos_x, float pos_y)
 	fix_angle(&player->ray.ray_angle);
 	draw_pixels(player->player_image, 0x00bb00FF, player->size);
 	if (mlx_image_to_window(game->mlx, player->player_image, player->x
-			* TILE_SIZE, player->y * TILE_SIZE) < 0)
+			* TILE_SIZE - (player->size / 2), player->y * TILE_SIZE - (player->size / 2)) < 0)
 		return (ERR_MLX);
 	if (init_player_images(game) == OK)
 		ray_casting(game->map, player);
@@ -82,8 +82,10 @@ t_error	ray_casting(t_map *map, t_player *player)
 	uint8_t			tmp;
 
 	x = 0;
-	p_x = player->player_image->instances[0].x + (player->size / 2);
-	p_y = player->player_image->instances[0].y + (player->size / 2);
+	// p_x = player->player_image->instances[0].x + (player->size / 2);
+	// p_y = player->player_image->instances[0].y + (player->size / 2);
+	p_x = player->x * TILE_SIZE;
+	p_y = player->y * TILE_SIZE;
 	while (x < player->ray.screenW)
 	{
 		player->ray.distance_h = 1000000;
