@@ -17,7 +17,7 @@ typedef struct s_player	t_player;
 
 typedef struct s_rays
 {
-	double	ray_angle;
+	float	ray_angle;
 	float	distance_v;
 	float	distance_h;
 	float	x_target;

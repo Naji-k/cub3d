@@ -27,12 +27,12 @@ float	dist(float ax, float ay, float bx, float by)
 
 /// @brief fix angle value should not be < 0 && ! >= 360
 /// @param angle
-void	fix_angle(float angle)
+void	fix_angle(float *angle)
 {
-	if (angle >= 2 * M_PI)
-		angle -= 2 * M_PI;
-	if (angle <= 0)
-		angle += (2 * M_PI);
+	if (*angle >= 2 * M_PI)
+		*angle -= 2 * M_PI;
+	if (*angle <= 0)
+		*angle += (2 * M_PI);
 }
 
 /// @brief to draw a line between two points on mlx_image,

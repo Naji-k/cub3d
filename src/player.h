@@ -17,6 +17,7 @@
 # include <ray.h>
 
 # define TILE_SIZE 32
+#define MOVE_SPEED 0.1
 
 typedef enum e_move_direction
 {
