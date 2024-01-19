@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/19 15:16:57 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/19 15:44:18 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,19 @@ t_error	draw_player(t_game *game, float pos_x, float pos_y)
 	player->ray.distance_h = INFINITY;
 	player->ray.distance_v = INFINITY;
 	// printf("player_rotation=%f\n", player->rotation);
-	player->ray.ray_angle = player->rotation + (degree_to_rad(60) / 2);
+	player->ray.ray_angle = player->rotation + (degree_to_rad(player->fov) / 2);
 	printf("angle=%f\n", player->ray.ray_angle);
 	fix_angle(&player->ray.ray_angle);
-	draw_pixels(player->player_image, (t_color){.raw = 0x00bb00FF}, player->size);
-	if (mlx_image_to_window(game->mlx, player->player_image, player->x
-			* TILE_SIZE, player->y * TILE_SIZE) < 0)
-		return (ERR_MLX);
 	if (init_player_images(game) == OK)
+	{
+		draw_pixels(player->player_image, (t_color){.raw = 0x00bb00FF}, player->size);
+		if (mlx_image_to_window(game->mlx, player->player_image, player->x
+			* TILE_SIZE, player->y * TILE_SIZE) == -1)
+			return (ERR_MLX);
 		ray_casting(game->map, player);
+	}
 	else
-		printf ("error player_init\n");
+		return (ERR_MLX);
 	return (OK);
 }
 
@@ -58,14 +60,16 @@ t_error	init_player_images(t_game *game)
 {
 	game->player->player_lines = mlx_new_image(game->mlx,
 			game->player->ray.screenW, game->player->ray.screenW);
-	game->player->wall = mlx_new_image(game->mlx, game->player->ray.screenW,
-			game->player->ray.screenH);
+	game->player->wall = mlx_new_image(game->mlx, game->mlx->width,
+			game->mlx->height);
 	if (!game->player->player_lines || !game->player->wall)
 		return (ERR_MLX);
-	if (mlx_image_to_window(game->mlx, game->player->player_lines, 0, 0) < 0)
-		return (ERR_MLX);
 	if (mlx_image_to_window(game->mlx, game->player->wall,
-			game->player->ray.screenW, 0) < 0)
+			0, 0) < 0)
+		return (ERR_MLX);
+	if (create_map(game) != OK)
+		return (ERR_MLX);
+	if (mlx_image_to_window(game->mlx, game->player->player_lines, 0, 0) < 0)
 		return (ERR_MLX);
 	return (OK);
 }
@@ -136,7 +140,7 @@ t_error	ray_casting(t_map *map, t_player *player)
 		draw_line(player->wall, x, player->ray.lineO + player->ray.lineH, x, \
 					player->ray.screenH, map->floor_color);
 		x++;
-		player->ray.ray_angle -= degree_to_rad(player->fov) / 640;
+		player->ray.ray_angle -= degree_to_rad(player->fov) / player->ray.screenW;
 		fix_angle(&player->ray.ray_angle);
 	}
 	return (OK);
@@ -161,7 +165,7 @@ bool	find_nearest_wall(t_player *player)
 		distance = player->ray.distance_h * cos(player->rotation
 				- player->ray.ray_angle);
 		//cal the wall_H
-		player->ray.lineH = TILE_SIZE / distance * 554;
+		player->ray.lineH = TILE_SIZE / distance * player->ray.screenH;
 	}
 	else
 	{
@@ -170,7 +174,7 @@ bool	find_nearest_wall(t_player *player)
 		distance = player->ray.distance_v * cos(player->rotation
 				- player->ray.ray_angle);
 		//wall_H
-		player->ray.lineH = TILE_SIZE / distance * 554;
+		player->ray.lineH = TILE_SIZE / distance * player->ray.screenH;
 	}
 	if (player->ray.end_x > 0 && player->ray.end_y > 0)
 		return (true);

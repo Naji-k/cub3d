@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 12:07:29 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/19 15:08:12 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/19 15:35:38 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <map.h>
 # include <ray.h>
 
-# define TILE_SIZE 32
+# define TILE_SIZE 16
 
 typedef enum e_move_direction
 {

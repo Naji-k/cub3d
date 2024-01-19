@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/19 15:19:01 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/19 15:45:29 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,17 @@ void	draw_pixels(mlx_image_t *img, t_color color, size_t size)
 /// @param x 0, base point to the map just to save some lines
 /// @param y 0, base point to the map just to save some lines
 /// @return error when mlx fails || ok
-t_error	create_map(t_game *game, size_t x, size_t y)
+t_error	create_map(t_game *game)
 {
 	t_color	color;
 	mlx_image_t	*mini_map_image;
-
+	size_t x;
+	size_t y;
+	
+	y = 0;
 	while (y < game->map->height)
 	{
+		x = 0;
 		while (x < game->map->width)
 		{
 			if (map_get_tile(game->map, x, y) == TILE_NONE)
@@ -74,7 +78,6 @@ t_error	create_map(t_game *game, size_t x, size_t y)
 				return (ERR_MLX);
 			x++;
 		}
-		x = 0;
 		y++;
 	}
 	return (OK);
@@ -94,14 +97,14 @@ t_error	init_game(t_game *game, t_map *map, t_player *player)
 	player_move = NONE;
 	game->map = map;
 	game->player = player;
-	game->mlx = mlx_init(2 * (TILE_SIZE) * game->map->width, \
-		(TILE_SIZE) * game->map->height, "Map", true);
+	game->mlx = mlx_init(3 * (TILE_SIZE) * 24, \
+		2 * (TILE_SIZE) * 24, "Map", true);
 	if (!game->mlx)
 		return (ERR_MLX);
 	game->player->delta_x = cos(player->rotation) * 5;
 	game->player->delta_y = -sin(player->rotation) * 5;
-	game->player->ray.screenW = map->width * TILE_SIZE;
-	game->player->ray.screenH = map->height * TILE_SIZE;
+	game->player->ray.screenW = game->mlx->width;
+	game->player->ray.screenH = game->mlx->height;
 	game->player->size = 16;
 	game->player->fov = 60;
 	game->player->current_move = player_move;
