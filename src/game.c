@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/19 15:45:29 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/19 15:51:38 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,28 +135,18 @@ void	key_hook(mlx_key_data_t key, void *param)
 
 void move_player(t_player *player)
 {
-	float		x;
-	float		y;
-
 	printf("playerOld x=%f y=%f\n deltaX=%f deltaY=%f\n", player->x, player->y, player->delta_x, player->delta_y);
-	x = player->player_image->instances[0].x;
-	y = player->player_image->instances[0].y;
-	if (player->current_move == MOVE_FORWARD || player->current_move == MOVE_BACKWARD)
+	if (player->current_move == MOVE_FORWARD)
 	{
-		if (player->current_move == MOVE_FORWARD)
-		{
-			y += player->delta_y;
-			x += player->delta_x;
-		}
-		if (player->current_move == MOVE_BACKWARD)
-		{
-			y -= player->delta_y;
-			x -= player->delta_x;
-		}
-		player->x = x / TILE_SIZE;
-		player->y = y / TILE_SIZE;
-		printf("playerNEW x=%f y=%f\n", player->x, player->y);
+		player->y += player->delta_y;
+		player->x += player->delta_x;
 	}
+	if (player->current_move == MOVE_BACKWARD)
+	{
+		player->y -= player->delta_y;
+		player->x -= player->delta_x;
+	}
+	printf("playerNEW x=%f y=%f\n", player->x, player->y);
 }
 void rotate_player(t_player *player)
 {
@@ -165,8 +155,8 @@ void rotate_player(t_player *player)
 	if (player->current_move == ROTATE_RIGHT)
 		player->rotation += 0.1;
 	fix_angle(&player->rotation);
-	player->delta_x = cos(player->rotation) * 5;
-	player->delta_y = -sin(player->rotation) * 5;
+	player->delta_x = cos(player->rotation) * 0.3;
+	player->delta_y = -sin(player->rotation) * 0.3;
 }
 void	game_loop(t_game *game)
 {
