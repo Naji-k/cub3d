@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:43:06 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/17 15:39:38 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/19 15:09:45 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ typedef union u_color
 	uint8_t	indexable[4];
 	struct
 	{
-		uint8_t	r;
-		uint8_t g;
-		uint8_t	b;
 		uint8_t	a;
+		uint8_t	b;
+		uint8_t g;
+		uint8_t	r;
 	};
 }	t_color;
 

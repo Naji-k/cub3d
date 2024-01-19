@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/16 16:03:36 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/19 13:28:38 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/19 15:29:12 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_game
 }				t_game;
 
 t_error			init_game(t_game *game, t_map *map, t_player *player);
-t_error			create_map(t_game *game, size_t x, size_t y);
+t_error			create_map(t_game *game);
 t_error			draw_player(t_game *game, float pos_x, float pos_y);
 t_error			init_player_images(t_game *game);
 

@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/18 13:11:00 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/19 15:51:38 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 /// @brief put_pixel for TILES
 /// @param img mini_map_image
 /// @param color
-void	draw_pixels(mlx_image_t *img, uint32_t color, size_t size)
+void	draw_pixels(mlx_image_t *img, t_color color, size_t size)
 {
 	size_t		tx;
 	size_t		ty;
-	uint32_t	og_color;
+	t_color		og_color;
 
 	tx = 0;
 	ty = 0;
@@ -31,11 +31,7 @@ void	draw_pixels(mlx_image_t *img, uint32_t color, size_t size)
 	{
 		while (tx < size)
 		{
-			if (ty == size - 1 || tx == 0)
-				color = 0x000022FF;
-			else
-				color = og_color;
-			mlx_put_pixel(img, tx, ty, color);
+			mlx_put_pixel(img, tx, ty, color.raw);
 			tx++;
 		}
 		tx = 0;
@@ -50,20 +46,29 @@ void	draw_pixels(mlx_image_t *img, uint32_t color, size_t size)
 /// @param x 0, base point to the map just to save some lines
 /// @param y 0, base point to the map just to save some lines
 /// @return error when mlx fails || ok
-t_error	create_map(t_game *game, size_t x, size_t y)
+t_error	create_map(t_game *game)
 {
-	uint32_t	color;
+	t_color	color;
 	mlx_image_t	*mini_map_image;
-
+	size_t x;
+	size_t y;
+	
+	y = 0;
 	while (y < game->map->height)
 	{
+		x = 0;
 		while (x < game->map->width)
 		{
-			if (map_get_tile(game->map, x, y) == TILE_WALL
-				|| map_get_tile(game->map, x, y) == TILE_NONE)
-				color = 0xFF000000;
+			if (map_get_tile(game->map, x, y) == TILE_NONE)
+				color  = (t_color){.a = 0};
+			else if (map_get_tile(game->map, x, y) == TILE_WALL)
+				color = (t_color){.r=31, .g=31, .b=31, .a = 255};
+			else if (map_get_tile(game->map, x, y) == TILE_DOOR)
+				color = (t_color){.r=127, .g=127, .b=127, .a = 255};
+			else if (map_get_tile(game->map, x, y) == TILE_EMPTY)
+				color = (t_color){.r=255, .g=255, .b=255, .a = 255};
 			else
-				color = 0xFFFFFFFF;
+				color = (t_color){.r=255, .g=0, .b=0, .a = 255};
 			mini_map_image = mlx_new_image(game->mlx, TILE_SIZE, TILE_SIZE);
 			if (!mini_map_image)
 				return (ERR_MLX);
@@ -73,7 +78,6 @@ t_error	create_map(t_game *game, size_t x, size_t y)
 				return (ERR_MLX);
 			x++;
 		}
-		x = 0;
 		y++;
 	}
 	return (OK);
@@ -93,14 +97,14 @@ t_error	init_game(t_game *game, t_map *map, t_player *player)
 	player_move = NONE;
 	game->map = map;
 	game->player = player;
-	game->mlx = mlx_init(2 * (TILE_SIZE) * game->map->width, \
-		(TILE_SIZE) * game->map->height, "Map", true);
+	game->mlx = mlx_init(3 * (TILE_SIZE) * 24, \
+		2 * (TILE_SIZE) * 24, "Map", true);
 	if (!game->mlx)
 		return (ERR_MLX);
-	game->player->delta_x = cos(player->rotation) * 0.1;
-	game->player->delta_y = -sin(player->rotation) * 0.1;
-	game->player->ray.screenW = map->width * TILE_SIZE;
-	game->player->ray.screenH = map->height * TILE_SIZE;
+	game->player->delta_x = cos(player->rotation) * 5;
+	game->player->delta_y = -sin(player->rotation) * 5;
+	game->player->ray.screenW = game->mlx->width;
+	game->player->ray.screenH = game->mlx->height;
 	game->player->size = 16;
 	game->player->fov = 60;
 	game->player->current_move = player_move;
@@ -193,23 +197,13 @@ void move_player(t_player *player, t_map* map)
 
 void rotate_player(t_player *player)
 {
-	if (player->current_move == ROTATE_LEFT || player->current_move == ROTATE_RIGHT)
-	{
-		if (player->current_move == ROTATE_LEFT)
-		{
-			player->rotation += 0.1;
-			if (player->rotation >= 2 * M_PI)
-				player->rotation -= 2 *M_PI;
-		} else if (player->current_move == ROTATE_RIGHT)
-		{
-			player->rotation -= 0.1;
-			if (player->rotation <= 0)
-				player->rotation += (2 * M_PI);
-		}
-		player->delta_x = cos(player->rotation) * 0.1;
-		player->delta_y = -sin(player->rotation) * 0.1;
-		player->direction =  get_player_direction(player->rotation);
-	}
+	if (player->current_move == ROTATE_LEFT)
+		player->rotation -= 0.1;
+	if (player->current_move == ROTATE_RIGHT)
+		player->rotation += 0.1;
+	fix_angle(&player->rotation);
+	player->delta_x = cos(player->rotation) * 0.3;
+	player->delta_y = -sin(player->rotation) * 0.3;
 }
 void	game_loop(t_game *game)
 {

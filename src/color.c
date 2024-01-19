@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 14:29:54 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/17 15:33:11 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/19 15:12:09 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ t_error	asci_to_color_rgb(t_color *color, char *string)
 	int	value;
 	int	i;
 
-	i = 0;
-	while (i < 3)
+	i = 3;
+	while (i > 0)
 	{
 		value = ft_atoi(string);
 		if (value < 0 || value > 255)
@@ -34,7 +34,7 @@ t_error	asci_to_color_rgb(t_color *color, char *string)
 		{
 			if (*string == '\0')
 			{
-				if (i < 2)
+				if (i > 1)
 					return (ERR_COLOR_TOO_LITTLE_VALUES);
 				color->a = 255;
 				return (OK);
@@ -42,7 +42,7 @@ t_error	asci_to_color_rgb(t_color *color, char *string)
 			string++;
 		}
 		string++;
-		i++;
+		i--;
 	}
 	return (ERR_COLOR_TOO_MANY_VALUES);
 }
