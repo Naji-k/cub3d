@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/16 13:07:04 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/19 13:18:25 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/19 15:00:43 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static const char	*g_error_strings[] = {
 [ERR_INVALID_IDENTIFIER] = "an invalid identifier was found",
 [ERR_DUPLICATE_PLAYER] = "a player was found twice",
 [ERR_NO_PLAYER] = "no player was found",
+[ERR_MISSING_DOOR_TEXTURES] = "map has doors but is missing a door texture",
 };
 
 const char	*error_string(t_error err)
