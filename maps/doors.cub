@@ -1,10 +1,10 @@
-NO maps/textures/BRICK_1A.PNG
-SO maps/textures/BRICK_1A.PNG
-EA maps/textures/BRICK_1A.PNG
-WE maps/textures/BRICK_1A.PNG
+NO maps/textures/WOOD_1C.PNG
+EA maps/textures/BRICK_3B.PNG
+SO maps/textures/BRICK_3D.PNG
+WE maps/textures/HEDGE_1A.PNG
 
-D1 maps/door.png
-D2 maps/door_opening.png
+D1 maps/textures/DOOR_1A.PNG
+D2 maps/textures/DOOR_1C.PNG
 
 F 220,100,0
 C 225,30,0

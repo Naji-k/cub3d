@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:49:48 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/16 13:07:46 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/19 13:18:40 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef enum e_error
 	ERR_INVALID_IDENTIFIER,
 	ERR_DUPLICATE_PLAYER,
 	ERR_NO_PLAYER,
+	ERR_MISSING_DOOR_TEXTURES,
 }	t_error;
 
 const char	*error_string(t_error err);

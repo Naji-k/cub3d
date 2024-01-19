@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/16 16:03:36 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/17 15:23:39 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/19 13:28:38 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int				draw_line(mlx_image_t *image, int startX, int startY, int endX,
 //utils
 double			degree_to_rad(float deg);
 float			dist(float ax, float ay, float bx, float by);
-void			fix_angle(float angle);
+void			fix_angle(float *angle);
 
 
 void	key_hook(mlx_key_data_t key, void *param);
