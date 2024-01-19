@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:34:23 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/18 17:35:50 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/19 15:01:35 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef struct s_map
 	t_color			ceiling_color;
 	size_t			width;
 	size_t			height;
-	bool			has_doors;
 	bool			doors_open;
 	t_tile			*tiles;
 }	t_map;
