@@ -20,9 +20,9 @@
 /// @param color
 void	draw_pixels(mlx_image_t *img, t_color color)
 {
-	size_t		tx;
-	size_t		ty;
-	t_color		og_color;
+	size_t	tx;
+	size_t	ty;
+	t_color	og_color;
 
 	tx = 0;
 	ty = 0;
@@ -48,11 +48,11 @@ void	draw_pixels(mlx_image_t *img, t_color color)
 /// @return error when mlx fails || ok
 t_error	create_map(t_game *game)
 {
-	t_color	color;
+	t_color		color;
 	mlx_image_t	*mini_map_image;
-	size_t x;
-	size_t y;
-	
+	size_t		x;
+	size_t		y;
+
 	y = 0;
 	while (y < game->map->height)
 	{
@@ -60,15 +60,15 @@ t_error	create_map(t_game *game)
 		while (x < game->map->width)
 		{
 			if (map_get_tile(game->map, x, y) == TILE_NONE)
-				color  = (t_color){.a = 0};
+				color = (t_color){.a = 0};
 			else if (map_get_tile(game->map, x, y) == TILE_WALL)
-				color = (t_color){.r=31, .g=31, .b=31, .a = 255};
+				color = (t_color){.r = 31, .g = 31, .b = 31, .a = 255};
 			else if (map_get_tile(game->map, x, y) == TILE_DOOR)
-				color = (t_color){.r=127, .g=127, .b=127, .a = 255};
+				color = (t_color){.r = 127, .g = 127, .b = 127, .a = 255};
 			else if (map_get_tile(game->map, x, y) == TILE_EMPTY)
-				color = (t_color){.r=255, .g=255, .b=255, .a = 255};
+				color = (t_color){.r = 255, .g = 255, .b = 255, .a = 255};
 			else
-				color = (t_color){.r=255, .g=0, .b=0, .a = 255};
+				color = (t_color){.r = 255, .g = 0, .b = 0, .a = 255};
 			mini_map_image = mlx_new_image(game->mlx, TILE_SIZE, TILE_SIZE);
 			if (!mini_map_image)
 				return (ERR_MLX);
@@ -92,7 +92,7 @@ t_error	create_map(t_game *game)
 /// @return
 t_error	init_game(t_game *game, t_map *map, t_player *player)
 {
-	t_move_direction player_move;
+	t_move_direction	player_move;
 
 	player_move = NONE;
 	game->map = map;
@@ -139,51 +139,6 @@ void	key_hook(mlx_key_data_t key, void *param)
 }
 
 
-void move_player(t_player *player, t_map* map)
-{
-	float		x;
-	float		y;
-
-	x = player->x ;
-	y = player->y ;
-	if (player->current_move == MOVE_FORWARD)
-	{
-		y += player->delta_y;
-		x += player->delta_x;
-	}
-	else if (player->current_move == MOVE_BACKWARD)
-	{
-		y -= player->delta_y;
-		x -= player->delta_x;
-	}
-	else if (player->current_move == MOVE_RIGHT)
-	{
-		x += player->delta_y; 
-		y -= player->delta_x; 
-
-	}
-	else if (player->current_move == MOVE_LEFT)
-	{
-		x -= player->delta_y;
-		y += player->delta_x;
-	}
-	if (map_get_tile(map, x, y) != TILE_WALL)
-	{
-		player->x = x;
-		player->y = y;
-	}
-}
-
-void rotate_player(t_player *player)
-{
-	if (player->current_move == ROTATE_LEFT)
-		player->rotation += 0.1;
-	else if (player->current_move == ROTATE_RIGHT)
-		player->rotation -= 0.1;
-	fix_angle(&player->rotation);
-	player->delta_x = cos(player->rotation) * MOVE_SPEED;
-	player->delta_y = -sin(player->rotation) * MOVE_SPEED;
-}
 
 void	update(t_game *game)
 {
