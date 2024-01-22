@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 11:54:55 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 15:37:25 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ t_error	init_game(t_game *game, t_map *map, t_player *player)
 	player_move = NONE;
 	game->map = map;
 	game->player = player;
-	game->mlx = mlx_init(3 * (TILE_SIZE) * 24, \
-		2 * (TILE_SIZE) * 24, "Map", true);
+	game->mlx = mlx_init(3 * 16 * 24, \
+		2 * 16 * 24, "Map", true);
 	if (!game->mlx)
 		return (ERR_MLX);
 	game->player->delta_x = cos(player->rotation) * MOVE_SPEED;

@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 14:25:23 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 15:57:42 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_error	ray_casting(t_map *map, t_player *player)
 				texture = map->north_texture;
 			else
 				texture = map->south_texture;
-			texture_x = (uint32_t)((player->ray.end_x  / TILE_SIZE - floorf(player->ray.end_x / TILE_SIZE)) * texture->width);
+			texture_x = (uint32_t)((player->ray.end_x / TILE_SIZE - floorf(player->ray.end_x / TILE_SIZE)) * texture->width);
 		}
 		else
 		{
@@ -116,7 +116,11 @@ t_error	ray_casting(t_map *map, t_player *player)
 				texture = map->east_texture;
 			else
 				texture = map->west_texture;
-			texture_x = (uint32_t)((player->ray.end_y  / TILE_SIZE - floorf(player->ray.end_y / TILE_SIZE)) * texture->width);
+			texture_x = (uint32_t)((player->ray.end_y / TILE_SIZE - floorf(player->ray.end_y / TILE_SIZE)) * texture->width);
+		}
+		if (player->ray.hit_tile == TILE_DOOR)
+		{
+			texture = map->door1_texture;
 		}
 		step_size = player->ray.lineH / texture->height;
 		texture_y = 0;
@@ -166,7 +170,7 @@ bool	find_nearest_wall(t_player *player)
 		player->ray.end_y = player->ray.hor_y;
 		distance = player->ray.distance_h * cos(player->rotation - player->ray.ray_angle);
 		//cal the wall_H
-		player->ray.lineH = TILE_SIZE / distance * (player->ray.screenW / tanf(degree_to_rad(player->fov)));
+		player->ray.lineH = TILE_SIZE / distance * (player->ray.screenW / 1 / tanf(degree_to_rad(player->fov)));
 	}
 	else
 	{
@@ -174,7 +178,7 @@ bool	find_nearest_wall(t_player *player)
 		player->ray.end_y = player->ray.ver_y;
 		distance = player->ray.distance_v * cos(player->rotation - player->ray.ray_angle);
 		//wall_H
-		player->ray.lineH = TILE_SIZE / distance * (player->ray.screenW / tanf(degree_to_rad(player->fov)));
+		player->ray.lineH = TILE_SIZE / distance * (player->ray.screenW / 1 / tanf(degree_to_rad(player->fov)));
 	}
 	if (distance > 0)
 		return (true);
