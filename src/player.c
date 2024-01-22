@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 15:57:42 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 15:59:21 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ bool	find_nearest_wall(t_player *player)
 		distance = player->ray.distance_h * cos(player->rotation - player->ray.ray_angle);
 		//cal the wall_H
 		player->ray.lineH = TILE_SIZE / distance * (player->ray.screenW / 1 / tanf(degree_to_rad(player->fov)));
+		player->ray.hit_tile = player->ray.hit_tile_h;
 	}
 	else
 	{
@@ -179,6 +180,7 @@ bool	find_nearest_wall(t_player *player)
 		distance = player->ray.distance_v * cos(player->rotation - player->ray.ray_angle);
 		//wall_H
 		player->ray.lineH = TILE_SIZE / distance * (player->ray.screenW / 1 / tanf(degree_to_rad(player->fov)));
+		player->ray.hit_tile = player->ray.hit_tile_v;
 	}
 	if (distance > 0)
 		return (true);

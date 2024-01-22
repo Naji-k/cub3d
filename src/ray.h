@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:18:37 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 15:45:55 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 15:58:49 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct s_rays
 	float	lineO;
 	int		screenH;
 	int		screenW;
+	t_tile	hit_tile_h;
+	t_tile	hit_tile_v;
 	t_tile	hit_tile;
 }			t_ray;
 
