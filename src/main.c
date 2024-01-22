@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:54:02 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/19 15:29:47 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 12:18:48 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	main(int argc, char *argv[])
 	draw_player(&game,player.x,player.y);
 	mlx_key_hook(game.mlx, key_hook, &game);
 	mlx_loop(game.mlx);
+	//cleanup player and stuf !!!!!!!!!!
 	map_destruct(&map);
 	return (OK);
 }
