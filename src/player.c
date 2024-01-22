@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 13:00:50 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 13:22:56 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ t_error	ray_casting(t_map *map, t_player *player)
 	p_y = player->y * TILE_SIZE;
 	while (x < player->ray.screenW)
 	{
-		printf("%f\n", player->ray.ray_angle);
 		player->ray.distance_h = INFINITY;
 		player->ray.distance_v = INFINITY;
 		v_intersection(map, player, p_x, p_y);
@@ -113,7 +112,7 @@ t_error	ray_casting(t_map *map, t_player *player)
 		}
 		else
 		{
-			if (player->ray.ray_angle > M_PI * 0.5 && player->ray.ray_angle < M_PI * 1.5)
+			if (player->ray.ray_angle >= M_PI * 0.5 && player->ray.ray_angle < M_PI * 1.5)
 				texture = map->east_texture;
 			else
 				texture = map->west_texture;
