@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/19 15:51:38 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 11:13:34 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,9 @@ void	key_hook(mlx_key_data_t key, void *param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
 		game->player->current_move = MOVE_BACKWARD;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
-		game->player->current_move = MOVE_LEFT;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
 		game->player->current_move = MOVE_RIGHT;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
+		game->player->current_move = MOVE_LEFT;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
 		game->player->current_move = ROTATE_LEFT;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
@@ -144,63 +144,42 @@ void move_player(t_player *player, t_map* map)
 	float		x;
 	float		y;
 
-
 	x = player->x ;
 	y = player->y ;
-	if (player->current_move == MOVE_FORWARD || player->current_move == MOVE_BACKWARD)
+	if (player->current_move == MOVE_FORWARD)
 	{
-		if (player->current_move == MOVE_FORWARD)
-		{
-			y += player->delta_y;
-			x += player->delta_x;
-			if (map_get_tile(map, x + player->delta_x, y + player->delta_y) != TILE_WALL)
-			{
-				player->x = x ;
-				player->y = y ;
-			}
-		}
-		if (player->current_move == MOVE_BACKWARD)
-		{
-			y -= player->delta_y;
-			x -= player->delta_x;
-			if (map_get_tile(map, x - player->delta_x, y - player->delta_y) != TILE_WALL)
-			{
-				player->x = x ;
-				player->y = y ;
-			}
-		}
-	} else if (player->current_move == MOVE_LEFT || player->current_move == MOVE_RIGHT)
+		y += player->delta_y;
+		x += player->delta_x;
+	}
+	else if (player->current_move == MOVE_BACKWARD)
 	{
-		if (player->current_move == MOVE_RIGHT)
-		{
-			x += player->delta_y; 
-    		y -= player->delta_x; 
-			if (map_get_tile(map, x + player->delta_x, y - player->delta_y) != TILE_WALL)
-			{
-				player->x = x ;
-				player->y = y ;
-			}
+		y -= player->delta_y;
+		x -= player->delta_x;
+	}
+	else if (player->current_move == MOVE_RIGHT)
+	{
+		x += player->delta_y; 
+		y -= player->delta_x; 
 
-		}
-		if (player->current_move == MOVE_LEFT)
-		{
- 			x -= player->delta_y;
-    		y += player->delta_x;
-			if (map_get_tile(map, x - player->delta_x, y + player->delta_y) != TILE_WALL)
-			{
-				player->x = x ;
-				player->y = y ;
-			}
-		}
+	}
+	else if (player->current_move == MOVE_LEFT)
+	{
+		x -= player->delta_y;
+		y += player->delta_x;
+	}
+	if (map_get_tile(map, x, y) != TILE_WALL)
+	{
+		player->x = x;
+		player->y = y;
 	}
 }
 
 void rotate_player(t_player *player)
 {
 	if (player->current_move == ROTATE_LEFT)
-		player->rotation -= 0.1;
-	if (player->current_move == ROTATE_RIGHT)
 		player->rotation += 0.1;
+	if (player->current_move == ROTATE_RIGHT)
+		player->rotation -= 0.1;
 	fix_angle(&player->rotation);
 	player->delta_x = cos(player->rotation) * MOVE_SPEED;
 	player->delta_y = -sin(player->rotation) * MOVE_SPEED;
