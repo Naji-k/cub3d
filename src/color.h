@@ -13,23 +13,22 @@
 #ifndef COLOR_H
 # define COLOR_H
 
-# include <stdint.h>
-
 # include "errors.h"
+# include <stdint.h>
 
 typedef union u_color
 {
-	int32_t	raw;
-	uint8_t	indexable[4];
+	int32_t		raw;
+	uint8_t		indexable[4];
 	struct
 	{
 		uint8_t	a;
 		uint8_t	b;
-		uint8_t g;
+		uint8_t	g;
 		uint8_t	r;
 	};
-}	t_color;
+}				t_color;
 
-t_error	asci_to_color_rgb(t_color *color, char *string);
+t_error			asci_to_color_rgb(t_color *color, char *string);
 
 #endif

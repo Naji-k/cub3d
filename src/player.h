@@ -17,7 +17,7 @@
 # include <ray.h>
 
 # define TILE_SIZE 16
-# define MOVE_SPEED	0.1
+# define MOVE_SPEED 0.1
 
 typedef enum e_player_direction
 {
@@ -25,7 +25,7 @@ typedef enum e_player_direction
 	EAST,
 	SOUTH,
 	WEST,
-}	t_player_direction;
+}						t_player_direction;
 
 typedef enum e_move_direction
 {
@@ -64,12 +64,11 @@ float					v_intersection(t_map *map, t_player *player, float p_x,
 							float p_y);
 
 void					rotate_player(t_player *player);
-void					move_player(t_player *player, t_map* map);
+void					move_player(t_player *player, t_map *map);
 
-
-
-//helpers UN-used functions but implement it while checking walls 
+//helpers UN-used functions but implement it while checking walls
 t_player_direction		get_player_direction(double angle);
-int can_move_to(t_player *player, t_map* map, float newX, float newY);
+int						can_move_to(t_player *player, t_map *map, float newX,
+							float newY);
 
 #endif

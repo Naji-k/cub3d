@@ -103,8 +103,8 @@ t_error	init_game(t_game *game, t_map *map, t_player *player)
 		return (ERR_MLX);
 	game->player->delta_x = cos(player->rotation) * MOVE_SPEED;
 	game->player->delta_y = -sin(player->rotation) * MOVE_SPEED;
-	game->player->ray.screenW = game->mlx->width;
-	game->player->ray.screenH = game->mlx->height;
+	game->player->ray.screen_w = game->mlx->width;
+	game->player->ray.screen_h = game->mlx->height;
 	game->player->size = 16;
 	game->player->fov = 60;
 	game->player->current_move = player_move;
@@ -140,18 +140,15 @@ void	key_hook(mlx_key_data_t key, void *param)
 	(void)key;
 }
 
-
-
 void	update(t_game *game)
 {
-	// mlx_delete_image(game->mlx, game->player->wall);
-	// mlx_delete_image(game->mlx, game->player->player_lines);
-	// mlx_delete_image(game->mlx, game->player->player_image);
-	// draw_player(game, game->player->x, game->player->y);
 	draw_pixels(game->player->player_lines, (t_color){.a = 0});
-	game->player->player_image->instances[0].x = game->player->x * TILE_SIZE - TILE_SIZE / 2;
-	game->player->player_image->instances[0].y = game->player->y * TILE_SIZE - TILE_SIZE / 2;
-	game->player->ray.ray_angle = game->player->rotation + (degree_to_rad(game->player->fov) / 2);
+	game->player->player_image->instances[0].x = game->player->x \
+		* TILE_SIZE - TILE_SIZE / 2;
+	game->player->player_image->instances[0].y = game->player->y \
+		* TILE_SIZE - TILE_SIZE / 2;
+	game->player->ray.ray_angle = game->player->rotation \
+		+ (degree_to_rad(game->player->fov) / 2);
 	fix_angle(&game->player->ray.ray_angle);
 	ray_casting(game->map, game->player);
 }

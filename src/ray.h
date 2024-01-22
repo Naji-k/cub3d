@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_Y
-# define RAY_Y
+#ifndef RAY_H
+# define RAY_H
 
 # include "map.h"
 
@@ -32,10 +32,10 @@ typedef struct s_rays
 	float				ver_y;
 	float				hor_x;
 	float				hor_y;
-	float				lineH;
-	float				lineO;
-	int					screenH;
-	int					screenW;
+	float				line_h;
+	float				line_offset;
+	int					screen_h;
+	int					screen_w;
 	t_tile				hit_tile_h;
 	t_tile				hit_tile_v;
 	t_tile				hit_tile;

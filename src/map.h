@@ -13,12 +13,10 @@
 #ifndef MAP_H
 # define MAP_H
 
-# include <stddef.h>
-# include <stdbool.h>
-
 # include "MLX42.h"
-
 # include "color.h"
+# include <stdbool.h>
+# include <stddef.h>
 
 typedef enum e_tile
 {
@@ -26,7 +24,7 @@ typedef enum e_tile
 	TILE_EMPTY,
 	TILE_WALL,
 	TILE_DOOR
-}	t_tile;
+}					t_tile;
 
 typedef struct s_map
 {
@@ -42,12 +40,14 @@ typedef struct s_map
 	size_t			height;
 	bool			doors_open;
 	t_tile			*tiles;
-}	t_map;
+}					t_map;
 
-void	map_destruct(t_map *map);
-void	map_set_tile(t_map *map, unsigned long x, unsigned long y, t_tile tile);
-t_tile	map_get_tile(t_map *map, unsigned long x, unsigned long y);
-bool	map_is_tile_on_edge(t_map *map, unsigned long x, unsigned long y);
-bool	map_is_closed(t_map *map);
+void				map_destruct(t_map *map);
+void				map_set_tile(t_map *map, unsigned long x, unsigned long y,
+						t_tile tile);
+t_tile				map_get_tile(t_map *map, unsigned long x, unsigned long y);
+bool				map_is_tile_on_edge(t_map *map, unsigned long x,
+						unsigned long y);
+bool				map_is_closed(t_map *map);
 
 #endif

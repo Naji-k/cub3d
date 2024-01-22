@@ -35,9 +35,7 @@ t_error	draw_player(t_game *game, float pos_x, float pos_y)
 	player->y = pos_y;
 	player->ray.distance_h = INFINITY;
 	player->ray.distance_v = INFINITY;
-	// printf("player_rotation=%f\n", player->rotation);
 	player->ray.ray_angle = player->rotation + (degree_to_rad(player->fov) / 2);
-	// printf("angle=%f\n", player->ray.ray_angle);
 	fix_angle(&player->ray.ray_angle);
 	if (init_player_images(game) == OK)
 	{
@@ -59,7 +57,7 @@ t_error	draw_player(t_game *game, float pos_x, float pos_y)
 t_error	init_player_images(t_game *game)
 {
 	game->player->player_lines = mlx_new_image(game->mlx,
-			game->player->ray.screenW, game->player->ray.screenW);
+			game->player->ray.screen_w, game->player->ray.screen_w);
 	game->player->wall = mlx_new_image(game->mlx, game->mlx->width,
 			game->mlx->height);
 	if (!game->player->player_lines || !game->player->wall)
@@ -89,7 +87,7 @@ t_error	ray_casting(t_map *map, t_player *player)
 	x = 0;
 	p_x = player->x * TILE_SIZE;
 	p_y = player->y * TILE_SIZE;
-	while (x < player->ray.screenW)
+	while (x < player->ray.screen_w)
 	{
 		player->ray.distance_h = INFINITY;
 		player->ray.distance_v = INFINITY;
@@ -99,8 +97,8 @@ t_error	ray_casting(t_map *map, t_player *player)
 			draw_line(player->player_lines, (int)p_x, (int)p_y,
 				(int)player->ray.end_x, (int)player->ray.end_y, \
 				(t_color){.raw = 0xFF0000FF});
-		player->ray.lineO = (player->ray.screenH / 2) - (player->ray.lineH / 2);
-		draw_line(player->wall, x, 0, x, player->ray.lineO, map->ceiling_color);
+		player->ray.line_offset = (player->ray.screen_h / 2) - (player->ray.line_h / 2);
+		draw_line(player->wall, x, 0, x, player->ray.line_offset, map->ceiling_color);
 
 		if (player->ray.distance_h < player->ray.distance_v)
 		{
@@ -122,7 +120,7 @@ t_error	ray_casting(t_map *map, t_player *player)
 		{
 			texture = map->door1_texture;
 		}
-		step_size = player->ray.lineH / texture->height;
+		step_size = player->ray.line_h / texture->height;
 		texture_y = 0;
 		while (texture_y < texture->height)
 		{
@@ -135,16 +133,16 @@ t_error	ray_casting(t_map *map, t_player *player)
 			color.b = color.g;
 			color.g = tmp;
 			draw_line(player->wall, x, \
-				player->ray.lineO + step_size * texture_y, x, \
-				player->ray.lineO + step_size * texture_y + step_size,
+				player->ray.line_offset + step_size * texture_y, x, \
+				player->ray.line_offset + step_size * texture_y + step_size,
 				color);
 			texture_y += 1;
 		}
 
-		draw_line(player->wall, x, player->ray.lineO + player->ray.lineH, x, \
-					player->ray.screenH, map->floor_color);
+		draw_line(player->wall, x, player->ray.line_offset + player->ray.line_h, x, \
+					player->ray.screen_h, map->floor_color);
 		
-		player->ray.ray_angle -= degree_to_rad(player->fov) / player->ray.screenW;
+		player->ray.ray_angle -= degree_to_rad(player->fov) / player->ray.screen_w;
 		fix_angle(&player->ray.ray_angle);
 		x++;
 	}
@@ -170,7 +168,7 @@ bool	find_nearest_wall(t_player *player)
 		player->ray.end_y = player->ray.hor_y;
 		distance = player->ray.distance_h * cos(player->rotation - player->ray.ray_angle);
 		//cal the wall_H
-		player->ray.lineH = TILE_SIZE / distance * (player->ray.screenW / 1 / tanf(degree_to_rad(player->fov)));
+		player->ray.line_h = TILE_SIZE / distance * (player->ray.screen_w / 1 / tanf(degree_to_rad(player->fov)));
 		player->ray.hit_tile = player->ray.hit_tile_h;
 	}
 	else
@@ -179,7 +177,7 @@ bool	find_nearest_wall(t_player *player)
 		player->ray.end_y = player->ray.ver_y;
 		distance = player->ray.distance_v * cos(player->rotation - player->ray.ray_angle);
 		//wall_H
-		player->ray.lineH = TILE_SIZE / distance * (player->ray.screenW / 1 / tanf(degree_to_rad(player->fov)));
+		player->ray.line_h = TILE_SIZE / distance * (player->ray.screen_w / 1 / tanf(degree_to_rad(player->fov)));
 		player->ray.hit_tile = player->ray.hit_tile_v;
 	}
 	if (distance > 0)
