@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 13:22:56 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 14:25:23 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_error	draw_player(t_game *game, float pos_x, float pos_y)
 	player->ray.distance_v = INFINITY;
 	// printf("player_rotation=%f\n", player->rotation);
 	player->ray.ray_angle = player->rotation + (degree_to_rad(player->fov) / 2);
-	printf("angle=%f\n", player->ray.ray_angle);
+	// printf("angle=%f\n", player->ray.ray_angle);
 	fix_angle(&player->ray.ray_angle);
 	if (init_player_images(game) == OK)
 	{
@@ -166,7 +166,7 @@ bool	find_nearest_wall(t_player *player)
 		player->ray.end_y = player->ray.hor_y;
 		distance = player->ray.distance_h * cos(player->rotation - player->ray.ray_angle);
 		//cal the wall_H
-		player->ray.lineH = TILE_SIZE / distance * player->ray.screenH;
+		player->ray.lineH = TILE_SIZE / distance * (player->ray.screenW / tanf(degree_to_rad(player->fov)));
 	}
 	else
 	{
@@ -174,7 +174,7 @@ bool	find_nearest_wall(t_player *player)
 		player->ray.end_y = player->ray.ver_y;
 		distance = player->ray.distance_v * cos(player->rotation - player->ray.ray_angle);
 		//wall_H
-		player->ray.lineH = TILE_SIZE / distance * player->ray.screenH;
+		player->ray.lineH = TILE_SIZE / distance * (player->ray.screenW / tanf(degree_to_rad(player->fov)));
 	}
 	if (distance > 0)
 		return (true);

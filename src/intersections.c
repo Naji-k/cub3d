@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/16 15:48:20 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 13:11:28 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 14:32:50 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ float h_intersection(t_map *map,t_player *player, float p_x, float p_y)
 	}
 	if (angle > 0 && angle < M_PI_2)
 	{//Q1
-		yn = (((int)p_y >> 5) << 5 ) - 0.1; 
+		yn = (((int)p_y >> sizeof(TILE_SIZE)) << sizeof(TILE_SIZE) ) - 0.1; 
 		xn = (p_y - yn)/tan(angle) + p_x;
 		ys = -TILE_SIZE;
 		xs = ys / tan(angle);
@@ -41,7 +41,7 @@ float h_intersection(t_map *map,t_player *player, float p_x, float p_y)
 	}
 	else if (angle >= 0.5 * M_PI && angle < M_PI)
 	{//upside left Q2
-		yn = (((int)p_y >> 5) << 5) - 0.1;
+		yn = (((int)p_y >> sizeof(TILE_SIZE)) << sizeof(TILE_SIZE)) - 0.1;
 		xn = (p_y - yn)/tan(angle) + p_x;
 		ys = -TILE_SIZE;
 		xs = ys / tan(angle);
@@ -49,7 +49,7 @@ float h_intersection(t_map *map,t_player *player, float p_x, float p_y)
 
 	} else if (angle > M_PI && angle < 1.5 * M_PI) {
 		//3rd quarter Q3
-		yn = (((int) p_y >> 5)<< 5) + TILE_SIZE;
+		yn = (((int) p_y >> sizeof(TILE_SIZE))<< sizeof(TILE_SIZE)) + TILE_SIZE;
 		xn =(p_y - yn)/tan(angle) + p_x;
 		ys = TILE_SIZE;
 		xs = ys / tan(angle);
@@ -57,7 +57,7 @@ float h_intersection(t_map *map,t_player *player, float p_x, float p_y)
 	}
 	else {
 		//4th quarter Q4
-		yn = (((int) p_y >> 5)<< 5) + TILE_SIZE;
+		yn = (((int) p_y >> sizeof(TILE_SIZE))<< sizeof(TILE_SIZE)) + TILE_SIZE;
 		xn =(p_y - yn) / tan(angle) + p_x;
 		ys = +TILE_SIZE;
 		xs = ys / tan(angle);
@@ -104,14 +104,14 @@ float v_intersection(t_map *map,t_player *player, float p_x, float p_y)
 	}
 	else if (angle > 0 && angle <= M_PI_2)
 	{// Q1
-		xn = (((int) p_x >> 5 ) << 5) + TILE_SIZE;
+		xn = (((int) p_x >> sizeof(TILE_SIZE) ) << sizeof(TILE_SIZE)) + TILE_SIZE;
 		yn = (p_x - xn) * tan(angle) + p_y;	
 		xs = TILE_SIZE;
 		ys = xs * tan(angle);
 		ys *= ys > 0 ? -1 : 1;
 	} else if (angle >= M_PI / 2 && angle < M_PI) {
 		//Q2
-		xn = (((int) p_x >> 5) << 5) - 0.1;
+		xn = (((int) p_x >> sizeof(TILE_SIZE)) << sizeof(TILE_SIZE)) - 0.1;
 		yn = (p_x - xn) * tan(angle) + p_y;
 		xs = -TILE_SIZE;
 		ys = xs * tan(angle);
@@ -119,14 +119,14 @@ float v_intersection(t_map *map,t_player *player, float p_x, float p_y)
 
 	} else if (angle >= M_PI && angle < (1.5 * M_PI))
 	{//Q3
-		xn = (((int) p_x >> 5) << 5) - 0.1;
+		xn = (((int) p_x >> sizeof(TILE_SIZE)) << sizeof(TILE_SIZE)) - 0.1;
 		yn = (p_x - xn) * tan(angle) + p_y;
 		xs = -TILE_SIZE;
 		ys = xs * tan(angle);
 		ys *= ys < 0 ? -1 : 1;
 		
 	} else  {
-		xn = (((int) p_x >> 5 ) << 5) + TILE_SIZE;
+		xn = (((int) p_x >> sizeof(TILE_SIZE) ) << sizeof(TILE_SIZE)) + TILE_SIZE;
 		yn = (p_x - xn) * tan(angle) + p_y;	
 		xs = TILE_SIZE;
 		ys = xs * tan(angle);
