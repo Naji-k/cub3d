@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 12:26:45 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 13:00:50 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ t_error	ray_casting(t_map *map, t_player *player)
 	uint8_t			tmp;
 
 	x = 0;
-	// p_x = player->player_image->instances[0].x + (player->size / 2);
-	// p_y = player->player_image->instances[0].y + (player->size / 2);
 	p_x = player->x * TILE_SIZE;
 	p_y = player->y * TILE_SIZE;
 	while (x < player->ray.screenW)
