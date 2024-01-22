@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 11:27:42 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 11:44:59 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /// @brief put_pixel for TILES
 /// @param img mini_map_image
 /// @param color
-void	draw_pixels(mlx_image_t *img, t_color color, size_t size)
+void	draw_pixels(mlx_image_t *img, t_color color)
 {
 	size_t		tx;
 	size_t		ty;
@@ -27,9 +27,9 @@ void	draw_pixels(mlx_image_t *img, t_color color, size_t size)
 	tx = 0;
 	ty = 0;
 	og_color = color;
-	while (ty < size)
+	while (ty < img->height)
 	{
-		while (tx < size)
+		while (tx < img->width)
 		{
 			mlx_put_pixel(img, tx, ty, color.raw);
 			tx++;
@@ -72,7 +72,7 @@ t_error	create_map(t_game *game)
 			mini_map_image = mlx_new_image(game->mlx, TILE_SIZE, TILE_SIZE);
 			if (!mini_map_image)
 				return (ERR_MLX);
-			draw_pixels(mini_map_image, color, TILE_SIZE);
+			draw_pixels(mini_map_image, color);
 			if (mlx_image_to_window(game->mlx, mini_map_image, x * (TILE_SIZE),
 					y * (TILE_SIZE)) < 0)
 				return (ERR_MLX);
@@ -178,7 +178,7 @@ void rotate_player(t_player *player)
 {
 	if (player->current_move == ROTATE_LEFT)
 		player->rotation += 0.1;
-	if (player->current_move == ROTATE_RIGHT)
+	else if (player->current_move == ROTATE_RIGHT)
 		player->rotation -= 0.1;
 	fix_angle(&player->rotation);
 	player->delta_x = cos(player->rotation) * MOVE_SPEED;
@@ -187,8 +187,13 @@ void rotate_player(t_player *player)
 
 void	update(t_game *game)
 {
-	mlx_delete_image(game->mlx, game->player->wall);
-	mlx_delete_image(game->mlx, game->player->player_lines);
-	mlx_delete_image(game->mlx, game->player->player_image);
-	draw_player(game, game->player->x, game->player->y);
+	// mlx_delete_image(game->mlx, game->player->wall);
+	// mlx_delete_image(game->mlx, game->player->player_lines);
+	// mlx_delete_image(game->mlx, game->player->player_image);
+	// draw_player(game, game->player->x, game->player->y);
+	draw_pixels(game->player->player_lines, (t_color){.a = 0});
+	game->player->player_image->instances[0].x = game->player->x * TILE_SIZE - TILE_SIZE / 2;
+	game->player->player_image->instances[0].y = game->player->y * TILE_SIZE - TILE_SIZE / 2;
+	game->player->ray.ray_angle = game->player->rotation + (degree_to_rad(game->player->fov) / 2);
+	ray_casting(game->map, game->player);
 }

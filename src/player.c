@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/19 15:44:18 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 11:45:22 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_error	draw_player(t_game *game, float pos_x, float pos_y)
 	fix_angle(&player->ray.ray_angle);
 	if (init_player_images(game) == OK)
 	{
-		draw_pixels(player->player_image, (t_color){.raw = 0x00bb00FF}, player->size);
+		draw_pixels(player->player_image, (t_color){.raw = 0x00bb00FF});
 		if (mlx_image_to_window(game->mlx, player->player_image, player->x
 			* TILE_SIZE - (player->size / 2), player->y * TILE_SIZE - (player->size / 2)) == -1)
 			return (ERR_MLX);
@@ -93,8 +93,8 @@ t_error	ray_casting(t_map *map, t_player *player)
 	p_y = player->y * TILE_SIZE;
 	while (x < player->ray.screenW)
 	{
-		player->ray.distance_h = 1000000;
-		player->ray.distance_v = 1000000;
+		player->ray.distance_h = INFINITY;
+		player->ray.distance_v = INFINITY;
 		v_intersection(map, player, p_x, p_y);
 		h_intersection(map, player, p_x, p_y);
 		if (find_nearest_wall(player) == true)

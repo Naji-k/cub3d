@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 12:07:29 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/19 15:35:38 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 11:35:51 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ typedef struct s_player
 	t_player_direction	direction;
 }						t_player;
 
-void					draw_pixels(mlx_image_t *img, t_color color,
-							size_t size);
+void					draw_pixels(mlx_image_t *img, t_color color);
 t_error					ray_casting(t_map *map, t_player *player);
 
 float					h_intersection(t_map *map, t_player *player, float p_x,
