@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/16 15:48:20 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 15:58:59 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 16:22:12 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ float h_intersection(t_map *map,t_player *player, float p_x, float p_y)
 		if (x_target < 0 || y_target < 0 || y_target / TILE_SIZE >= map->height  || x_target / TILE_SIZE >= map->width)
 			break;
 		//check hit wall
-		if(map_get_tile(map,x_target / TILE_SIZE  ,y_target / TILE_SIZE) != TILE_EMPTY)
+		if(map_get_tile(map,x_target / TILE_SIZE  ,y_target / TILE_SIZE) != TILE_EMPTY && \
+			!(map_get_tile(map,x_target / TILE_SIZE ,y_target / TILE_SIZE) == TILE_DOOR && map->doors_open))
 		{
 			player->ray.distance_h = dist(p_x,p_y,x_target, y_target);
 			player->ray.hor_x = x_target;
@@ -142,7 +143,8 @@ float v_intersection(t_map *map,t_player *player, float p_x, float p_y)
 		if (x_target < 0 || y_target < 0 || y_target / TILE_SIZE >= map->height  || x_target / TILE_SIZE >= map->width)
 			break;
 		//check hit wall
-		if(map_get_tile(map,x_target / TILE_SIZE ,y_target / TILE_SIZE) != TILE_EMPTY)
+		if(map_get_tile(map,x_target / TILE_SIZE ,y_target / TILE_SIZE) != TILE_EMPTY && \
+			!(map_get_tile(map,x_target / TILE_SIZE ,y_target / TILE_SIZE) == TILE_DOOR && map->doors_open))
 		{
 			player->ray.distance_v = dist(p_x,p_y,x_target, y_target);
 			player->ray.ver_x = x_target;
