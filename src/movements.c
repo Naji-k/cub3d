@@ -13,7 +13,7 @@
 #include <game.h>
 #include <math.h>
 
-void valid_move(t_player *player, t_map *map, float new_x, float new_y)
+void	valid_move(t_player *player, t_map *map, float new_x, float new_y)
 {
 	if ((map_get_tile(map, new_x, new_y) == TILE_WALL))
 		return ;
@@ -22,6 +22,7 @@ void valid_move(t_player *player, t_map *map, float new_x, float new_y)
 	player->x = new_x;
 	player->y = new_y;
 }
+
 void	move_player(t_player *player, t_map *map)
 {
 	float	pos[2];

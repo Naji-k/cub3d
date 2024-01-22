@@ -14,146 +14,125 @@
 #include <math.h>
 #include <stdio.h>
 
-float h_intersection(t_map *map,t_player *player, float p_x, float p_y)
+void	h_calculations(t_ray *ray, float p_x, float p_y, double angle)
 {
-	float ys;
-	float xs;
-	float yn;
-	float xn;
-	double angle;
-	float x_target;
-	float y_target;
+	float	yn;
+	float	xn;
 
-	angle = player->ray.ray_angle;
-	if (fabs(angle - 0) < 0.0001 || fabs(angle - M_PI) < 0.0001) 
+	if (fabs(angle) < 0.0001 || fabs(angle - M_PI) < 0.0001)
+		return ;
+	if (angle > 0 && angle < M_PI)
 	{
-		xn = p_x;
-		yn = p_y;
-		return (INFINITY);
-	}
-	if (angle > 0 && angle < M_PI_2)
-	{//Q1
-		yn = (((int)p_y >> sizeof(TILE_SIZE)) << sizeof(TILE_SIZE) ) - 0.1; 
-		xn = (p_y - yn)/tan(angle) + p_x;
-		ys = -TILE_SIZE;
-		xs = ys / tan(angle);
-		xs *= xs > 0 ? 1 : -1;
-	}
-	else if (angle >= 0.5 * M_PI && angle < M_PI)
-	{//upside left Q2
 		yn = (((int)p_y >> sizeof(TILE_SIZE)) << sizeof(TILE_SIZE)) - 0.1;
-		xn = (p_y - yn)/tan(angle) + p_x;
-		ys = -TILE_SIZE;
-		xs = ys / tan(angle);
-		xs *= xs < 0 ? 1 : -1;
-
-	} else if (angle > M_PI && angle < 1.5 * M_PI) {
-		//3rd quarter Q3
-		yn = (((int) p_y >> sizeof(TILE_SIZE))<< sizeof(TILE_SIZE)) + TILE_SIZE;
-		xn =(p_y - yn)/tan(angle) + p_x;
-		ys = TILE_SIZE;
-		xs = ys / tan(angle);
-		xs *= xs < 0 ? 1 : -1;
+		ray->ys = -TILE_SIZE;
 	}
-	else {
-		//4th quarter Q4
-		yn = (((int) p_y >> sizeof(TILE_SIZE))<< sizeof(TILE_SIZE)) + TILE_SIZE;
-		xn =(p_y - yn) / tan(angle) + p_x;
-		ys = +TILE_SIZE;
-		xs = ys / tan(angle);
-		xs *= xs > 0 ? 1 : -1;
-	}
-	y_target = yn;
-	x_target = xn;
-	while (1)
+	else
 	{
-		//check boundaries
-		if (x_target < 0 || y_target < 0 || y_target / TILE_SIZE >= map->height  || x_target / TILE_SIZE >= map->width)
-			break;
-		//check hit wall
-		if(map_get_tile(map,x_target / TILE_SIZE  ,y_target / TILE_SIZE) != TILE_EMPTY && \
-			!(map_get_tile(map,x_target / TILE_SIZE ,y_target / TILE_SIZE) == TILE_DOOR && map->doors_open))
-		{
-			player->ray.distance_h = dist(p_x,p_y,x_target, y_target);
-			player->ray.hor_x = x_target;
-			player->ray.hor_y = y_target;
-			player->ray.hit_tile_h = map_get_tile(map, x_target / TILE_SIZE, y_target / TILE_SIZE);
-			return (player->ray.distance_h);
-		}
-		y_target += ys;
-		x_target += xs;
+		yn = (((int)p_y >> sizeof(TILE_SIZE)) << sizeof(TILE_SIZE)) + TILE_SIZE;
+		ray->ys = TILE_SIZE;
 	}
-
-	return(INFINITY);
+	xn = (p_y - yn) / tan(angle) + p_x;
+	ray->xs = ray->ys / tan(angle);
+	if (((angle > 0 && angle < 0.5 * M_PI) || (angle > 1.5 * M_PI))
+		&& ray->xs < 0)
+		ray->xs *= -1;
+	else if (((angle >= 0.5 * M_PI && angle <= 1.5 * M_PI))
+		&& ray->xs > 0)
+		ray->xs *= -1;
+	ray->y_target = yn;
+	ray->x_target = xn;
 }
-//find vertical intersection
-float v_intersection(t_map *map,t_player *player, float p_x, float p_y)
+
+float	h_intersection(t_map *map, t_player *player, float p_x, float p_y)
 {
-	float ys;
-	float xs;
-	float yn;
-	float xn;
-	double angle;
-	float y_target;
-	float x_target;
+	t_ray	*ray;
 
-	angle = player->ray.ray_angle;
-	if ((fabs(angle - M_PI_2) < 0.0001) || (fabs(angle - (1.5 * M_PI)) < 0.0001))
-	{
-		xn = p_x;
-		yn = p_y;
-		return (INFINITY);
-	}
-	else if (angle > 0 && angle <= M_PI_2)
-	{// Q1
-		xn = (((int) p_x >> sizeof(TILE_SIZE) ) << sizeof(TILE_SIZE)) + TILE_SIZE;
-		yn = (p_x - xn) * tan(angle) + p_y;	
-		xs = TILE_SIZE;
-		ys = xs * tan(angle);
-		ys *= ys > 0 ? -1 : 1;
-	} else if (angle >= M_PI / 2 && angle < M_PI) {
-		//Q2
-		xn = (((int) p_x >> sizeof(TILE_SIZE)) << sizeof(TILE_SIZE)) - 0.1;
-		yn = (p_x - xn) * tan(angle) + p_y;
-		xs = -TILE_SIZE;
-		ys = xs * tan(angle);
-		ys *= ys > 0 ? -1 : 1;
-
-	} else if (angle >= M_PI && angle < (1.5 * M_PI))
-	{//Q3
-		xn = (((int) p_x >> sizeof(TILE_SIZE)) << sizeof(TILE_SIZE)) - 0.1;
-		yn = (p_x - xn) * tan(angle) + p_y;
-		xs = -TILE_SIZE;
-		ys = xs * tan(angle);
-		ys *= ys < 0 ? -1 : 1;
-		
-	} else  {
-		xn = (((int) p_x >> sizeof(TILE_SIZE) ) << sizeof(TILE_SIZE)) + TILE_SIZE;
-		yn = (p_x - xn) * tan(angle) + p_y;	
-		xs = TILE_SIZE;
-		ys = xs * tan(angle);
-		ys *= ys < 0 ? -1 : 1;
-
-	}
-	y_target = yn;
-	x_target = xn;
+	ray = &player->ray;
+	h_calculations(ray, p_x, p_y, ray->ray_angle);
 	while (1)
 	{
-		//check boundaries
-		if (x_target < 0 || y_target < 0 || y_target / TILE_SIZE >= map->height  || x_target / TILE_SIZE >= map->width)
-			break;
-		//check hit wall
-		if(map_get_tile(map,x_target / TILE_SIZE ,y_target / TILE_SIZE) != TILE_EMPTY && \
-			!(map_get_tile(map,x_target / TILE_SIZE ,y_target / TILE_SIZE) == TILE_DOOR && map->doors_open))
+		if (ray->x_target < 0 || ray->y_target < 0
+			|| ray->y_target / TILE_SIZE >= map->height
+			|| ray->x_target / TILE_SIZE >= map->width)
+			break ;
+		if (is_ray_hit_wall(map, ray) == true)
 		{
-			player->ray.distance_v = dist(p_x,p_y,x_target, y_target);
-			player->ray.ver_x = x_target;
-			player->ray.ver_y = y_target;
-			player->ray.hit_tile_v = map_get_tile(map, x_target / TILE_SIZE, y_target / TILE_SIZE);
-			return (player->ray.distance_v);
+			ray->distance_h = dist(p_x, p_y, ray->x_target,
+					ray->y_target);
+			ray->hor_x = ray->x_target;
+			ray->hor_y = ray->y_target;
+			ray->hit_tile_h = map_get_tile(map, ray->x_target
+					/ TILE_SIZE, ray->y_target / TILE_SIZE);
+			return (ray->distance_h);
 		}
-		y_target += ys;
-		x_target += xs;
+		ray->y_target += ray->ys;
+		ray->x_target += ray->xs;
 	}
 	return (INFINITY);
+}
+
+void	v_calculations(t_ray *ray, float p_x, float p_y, double angle)
+{
+	float	yn;
+	float	xn;
+
+	if ((fabs(angle - 0.5 * M_PI) < 0.0001) || (fabs(angle - (1.5
+					* M_PI)) < 0.0001))
+		return ;
+	if ((angle >= 0.5 * M_PI && angle < 1.5 * M_PI))
+	{
+		xn = (((int)p_x >> sizeof(TILE_SIZE)) << sizeof(TILE_SIZE)) - 0.1;
+		ray->xs = -TILE_SIZE;
+	}
+	else
+	{
+		xn = (((int)p_x >> sizeof(TILE_SIZE)) << sizeof(TILE_SIZE)) + TILE_SIZE;
+		ray->xs = TILE_SIZE;
+	}
+	yn = (p_x - xn) * tan(angle) + p_y;
+	ray->ys = ray->xs * tan(angle);
+	if (angle > 0 && angle < M_PI && ray->ys > 0)
+		ray->ys *= -1;
+	else if (angle > M_PI && ray->ys < 0)
+		ray->ys *= -1;
+	ray->y_target = yn;
+	ray->x_target = xn;
+}
+
+float	v_intersection(t_map *map, t_player *player, float p_x, float p_y)
+{
+	t_ray	*ray;
+
+	ray = &player->ray;
+	v_calculations(ray, p_x, p_y, player->ray.ray_angle);
+	while (1)
+	{
+		if (ray->x_target < 0 || ray->y_target < 0
+			|| ray->y_target / TILE_SIZE >= map->height
+			|| ray->x_target / TILE_SIZE >= map->width)
+			break ;
+		if (is_ray_hit_wall(map, ray) == true)
+		{
+			ray->distance_v = dist(p_x, p_y, ray->x_target,
+					ray->y_target);
+			ray->ver_x = ray->x_target;
+			ray->ver_y = ray->y_target;
+			ray->hit_tile_v = map_get_tile(map, ray->x_target
+					/ TILE_SIZE, ray->y_target / TILE_SIZE);
+			return (ray->distance_v);
+		}
+		ray->y_target += ray->ys;
+		ray->x_target += ray->xs;
+	}
+	return (INFINITY);
+}
+
+bool	is_ray_hit_wall(t_map *map, t_ray *ray)
+{
+	if (map_get_tile(map, ray->x_target / TILE_SIZE, ray->y_target
+			/ TILE_SIZE) != TILE_EMPTY
+		&& !(map_get_tile(map, ray->x_target / TILE_SIZE, ray->y_target
+				/ TILE_SIZE) == TILE_DOOR && map->doors_open))
+		return (true);
+	return (false);
 }
