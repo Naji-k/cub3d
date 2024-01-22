@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/16 17:54:28 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/19 13:29:05 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 12:01:01 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,15 @@ float	dist(float ax, float ay, float bx, float by)
 void	fix_angle(float *angle)
 {
 	if (*angle >= 2 * M_PI)
+	{
 		*angle -= 2 * M_PI;
-	if (*angle < 0)
+		fix_angle(angle);
+	}
+	else if (*angle < 0)
+	{
 		*angle += (2 * M_PI);
+		fix_angle(angle);
+	}
 }
 
 /// @brief to draw a line between two points on mlx_image,

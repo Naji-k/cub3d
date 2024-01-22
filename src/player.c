@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 11:45:22 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 12:14:23 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ t_error	ray_casting(t_map *map, t_player *player)
 	p_y = player->y * TILE_SIZE;
 	while (x < player->ray.screenW)
 	{
+		printf("%f\n", player->ray.ray_angle);
 		player->ray.distance_h = INFINITY;
 		player->ray.distance_v = INFINITY;
 		v_intersection(map, player, p_x, p_y);
@@ -164,8 +165,7 @@ bool	find_nearest_wall(t_player *player)
 	{
 		player->ray.end_x = player->ray.hor_x;
 		player->ray.end_y = player->ray.hor_y;
-		distance = player->ray.distance_h * cos(player->rotation
-				- player->ray.ray_angle);
+		distance = player->ray.distance_h * cos(player->rotation - player->ray.ray_angle);
 		//cal the wall_H
 		player->ray.lineH = TILE_SIZE / distance * player->ray.screenH;
 	}
@@ -173,8 +173,7 @@ bool	find_nearest_wall(t_player *player)
 	{
 		player->ray.end_x = player->ray.ver_x;
 		player->ray.end_y = player->ray.ver_y;
-		distance = player->ray.distance_v * cos(player->rotation
-				- player->ray.ray_angle);
+		distance = player->ray.distance_v * cos(player->rotation - player->ray.ray_angle);
 		//wall_H
 		player->ray.lineH = TILE_SIZE / distance * player->ray.screenH;
 	}

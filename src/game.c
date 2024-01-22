@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 11:44:59 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 11:54:55 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,5 +195,6 @@ void	update(t_game *game)
 	game->player->player_image->instances[0].x = game->player->x * TILE_SIZE - TILE_SIZE / 2;
 	game->player->player_image->instances[0].y = game->player->y * TILE_SIZE - TILE_SIZE / 2;
 	game->player->ray.ray_angle = game->player->rotation + (degree_to_rad(game->player->fov) / 2);
+	fix_angle(&game->player->ray.ray_angle);
 	ray_casting(game->map, game->player);
 }
