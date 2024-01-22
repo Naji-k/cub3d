@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 11:13:34 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 11:27:42 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	key_hook(mlx_key_data_t key, void *param)
 	rotate_player(game->player);
 	move_player(game->player, game->map);
 	game->player->current_move = NONE;
-	game_loop(game);
+	update(game);
 	(void)key;
 }
 
@@ -184,7 +184,8 @@ void rotate_player(t_player *player)
 	player->delta_x = cos(player->rotation) * MOVE_SPEED;
 	player->delta_y = -sin(player->rotation) * MOVE_SPEED;
 }
-void	game_loop(t_game *game)
+
+void	update(t_game *game)
 {
 	mlx_delete_image(game->mlx, game->player->wall);
 	mlx_delete_image(game->mlx, game->player->player_lines);
