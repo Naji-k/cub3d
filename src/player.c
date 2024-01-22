@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 12:14:23 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 12:26:45 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,10 @@ t_error	ray_casting(t_map *map, t_player *player)
 
 		draw_line(player->wall, x, player->ray.lineO + player->ray.lineH, x, \
 					player->ray.screenH, map->floor_color);
-		x++;
+		
 		player->ray.ray_angle -= degree_to_rad(player->fov) / player->ray.screenW;
 		fix_angle(&player->ray.ray_angle);
+		x++;
 	}
 	return (OK);
 }
@@ -161,6 +162,7 @@ bool	find_nearest_wall(t_player *player)
 {
 	float	distance;
 
+	distance = -1;
 	if (player->ray.distance_h < player->ray.distance_v)
 	{
 		player->ray.end_x = player->ray.hor_x;
@@ -177,7 +179,7 @@ bool	find_nearest_wall(t_player *player)
 		//wall_H
 		player->ray.lineH = TILE_SIZE / distance * player->ray.screenH;
 	}
-	if (player->ray.end_x > 0 && player->ray.end_y > 0)
+	if (distance > 0)
 		return (true);
 	return (false);
 }
