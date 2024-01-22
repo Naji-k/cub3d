@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 15:37:25 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/22 16:24:21 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,8 @@ void	key_hook(mlx_key_data_t key, void *param)
 		game->player->current_move = ROTATE_LEFT;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		game->player->current_move = ROTATE_RIGHT;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_E))
+		game->map->doors_open = !game->map->doors_open;
 	rotate_player(game->player);
 	move_player(game->player, game->map);
 	game->player->current_move = NONE;
