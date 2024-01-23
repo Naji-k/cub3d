@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/23 12:55:09 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 13:39:03 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,11 @@ void	draw_slice(t_map *map, t_player *player, int x)
 	float			step_size;
 	t_color			color;
 
-	draw_line(player->wall, x, 0, x, player->ray.line_offset, \
-		map->ceiling_color);
+	draw_line(player->wall, (int [2]){x, 0}, \
+		(int [2]){x, player->ray.line_offset}, map->ceiling_color);
+	draw_line(player->wall, \
+		(int [2]){x, player->ray.line_offset + player->ray.line_h}, \
+		(int [2]){x, player->ray.screen_h}, map->floor_color);
 	select_texture(map, player, &texture, &texture_x);
 	step_size = player->ray.line_h / texture->height;
 	texture_y = 0;
@@ -117,13 +120,11 @@ void	draw_slice(t_map *map, t_player *player, int x)
 		color = (t_color){.raw = ((int32_t *)texture->pixels)[\
 				texture->height * texture_y + texture_x]};
 		color = swap_rgba_abgr(color);
-		draw_line(player->wall, x, \
-			player->ray.line_offset + step_size * texture_y, x, \
-			player->ray.line_offset + step_size * texture_y + step_size, color);
+		draw_line(player->wall, (int [2]){x, player->ray.line_offset + \
+			step_size * texture_y}, (int [2]){x, player->ray.line_offset + \
+			step_size * texture_y + step_size}, color);
 		texture_y += 1;
 	}
-	draw_line(player->wall, x, player->ray.line_offset + player->ray.line_h, \
-		x, player->ray.screen_h, map->floor_color);
 }
 
 void	ray_casting(t_map *map, t_player *player)
@@ -142,8 +143,9 @@ void	ray_casting(t_map *map, t_player *player)
 		v_intersection(map, player, p_x, p_y);
 		h_intersection(map, player, p_x, p_y);
 		find_nearest_wall(player);
-		draw_line(player->player_lines, p_x, p_y, player->ray.end_x, \
-			player->ray.end_y, (t_color){.raw = 0xFF0000FF});
+		draw_line(player->player_lines, (int [2]){p_x, p_y}, (int [2]){
+			player->ray.end_x, player->ray.end_y}, \
+			(t_color){.raw = 0xFF0000FF});
 		player->ray.line_offset = (player->ray.screen_h / 2) - \
 				(player->ray.line_h / 2);
 		draw_slice(map, player, x);
