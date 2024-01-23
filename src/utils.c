@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/16 17:54:28 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/23 13:46:28 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 13:53:41 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,10 @@ void	draw_line(mlx_image_t *image, int start[2], int end[2], t_color color)
 	int	error[2];
 
 	clamp_bounds(image, start, end);
-	mlx_put_pixel(image, start[0], start[1], color.raw);
 	d[0] = abs(end[0] - start[0]);
 	d[1] = abs(end[1] - start[1]);
-	s[0] = -1;
-	if (start[0] < end[0])
-		s[0] = 1;
-	s[1] = -1;
-	if (start[1] < end[1])
-		s[1] = 1;
+	s[0] = -1 + 2 * (start[0] < end[0]);
+	s[1] = -1 + 2 * (start[1] < end[1]);
 	error[0] = d[0] - d[1];
 	while ((start[0] != end[0] || start[1] != end[1]))
 	{
@@ -98,7 +93,7 @@ void	draw_line(mlx_image_t *image, int start[2], int end[2], t_color color)
 		if (error[1] < d[0])
 		{
 			error[0] += d[0];
-			start[1] += s[0];
+			start[1] += s[1];
 		}
 	}
 }
