@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/23 11:45:04 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 11:53:46 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,6 @@ t_error	create_map(t_game *game)
 /// @return
 t_error	init_game(t_game *game, t_map *map, t_player *player)
 {
-	t_move_direction	player_move;
-
-	player_move = NONE;
 	game->map = map;
 	game->player = player;
 	game->mlx = mlx_init(3 * 16 * 24, \
@@ -107,7 +104,7 @@ t_error	init_game(t_game *game, t_map *map, t_player *player)
 	game->player->ray.screen_h = game->mlx->height;
 	game->player->size = 16;
 	game->player->fov = 60;
-	game->player->current_move = player_move;
+	game->player->current_move = NONE;
 	player->direction = get_player_direction(player->rotation);
 	return (OK);
 }
