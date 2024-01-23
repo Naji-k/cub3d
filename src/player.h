@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 12:07:29 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/23 13:10:59 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 13:11:45 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 # define TILE_SIZE 16
 # define MOVE_SPEED 0.1
+# define ROTATE_SPEED 0.1
 
 typedef enum e_move_direction
 {

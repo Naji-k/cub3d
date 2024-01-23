@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 16:20:44 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 16:20:44 by nakanoun      ########   odam.nl         */
+/*   Updated: 2024/01/23 13:11:54 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ void	move_player(t_player *player, t_map *map)
 void	rotate_player(t_player *player)
 {
 	if (player->current_move == ROTATE_LEFT)
-		player->rotation += 0.1;
+		player->rotation += ROTATE_SPEED;
 	else if (player->current_move == ROTATE_RIGHT)
-		player->rotation -= 0.1;
+		player->rotation -= ROTATE_SPEED;
 	fix_angle(&player->rotation);
 	player->delta_x = cos(player->rotation) * MOVE_SPEED;
 	player->delta_y = -sin(player->rotation) * MOVE_SPEED;
