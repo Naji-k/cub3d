@@ -6,13 +6,15 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/23 12:43:22 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/23 12:43:22 by nakanoun      ########   odam.nl         */
+/*   Updated: 2024/01/23 16:30:25 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <game.h>
 #include <math.h>
+#include <stdlib.h>
 #include <stdio.h>
+
+#include "game.h"
 
 void	cursor_moves(double xpos, double ypos, void *param)
 {
@@ -22,9 +24,9 @@ void	cursor_moves(double xpos, double ypos, void *param)
 	game = param;
 	player = game->player;
 	if (player->prev_xpos < 0)
-	{
 		player->prev_xpos = xpos;
-	}
+	else if (fabs(player->prev_xpos - xpos) < 8)
+		return ;
 	else
 	{
 		if (xpos > player->prev_xpos)
