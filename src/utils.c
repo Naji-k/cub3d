@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/16 17:54:28 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/23 13:35:37 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 13:46:28 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,37 +71,34 @@ void	clamp_bounds(mlx_image_t *image, int start[2], int end[2])
 /// @param endY Y pos for the 2nd point (end point)
 void	draw_line(mlx_image_t *image, int start[2], int end[2], t_color color)
 {
-	int	dx;
-	int	dy;
-	int	sx;
-	int	sy;
-	int	error;
-	int	error2;
+	int	d[2];
+	int	s[2];
+	int	error[2];
 
 	clamp_bounds(image, start, end);
 	mlx_put_pixel(image, start[0], start[1], color.raw);
-	dx = abs(end[0] - start[0]);
-	dy = abs(end[1] - start[1]);
-	sx = -1;
+	d[0] = abs(end[0] - start[0]);
+	d[1] = abs(end[1] - start[1]);
+	s[0] = -1;
 	if (start[0] < end[0])
-		sx = 1;
-	sy = -1;
+		s[0] = 1;
+	s[1] = -1;
 	if (start[1] < end[1])
-		sy = 1;
-	error = dx - dy;
+		s[1] = 1;
+	error[0] = d[0] - d[1];
 	while ((start[0] != end[0] || start[1] != end[1]))
 	{
 		mlx_put_pixel(image, start[0], start[1], color.raw);
-		error2 = error * 2;
-		if (error2 > -dy)
+		error[1] = error[0] * 2;
+		if (error[1] > -d[1])
 		{
-			error -= dy;
-			start[0] += sx;
+			error[0] -= d[1];
+			start[0] += s[0];
 		}
-		if (error2 < dx)
+		if (error[1] < d[0])
 		{
-			error += dx;
-			start[1] += sy;
+			error[0] += d[0];
+			start[1] += s[0];
 		}
 	}
 }
