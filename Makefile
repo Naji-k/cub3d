@@ -1,7 +1,7 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Isrc -Ilibs/libft -Ilibs/MLX42/include/MLX42 -g -fsanitize=address 
-LDFLAGS = -ldl -lglfw -pthread -lm #linux
-# LDFLAGS = -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit	#naji's mac
+# LDFLAGS = -ldl -lglfw -pthread -lm #linux
+LDFLAGS = -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit	#naji's mac
 
 ################################################################################
 
@@ -27,7 +27,8 @@ SRC =	src/main.c src/errors.c src/color.c src/map.c \
 		src/intersections.c \
 		src/utils.c \
 		src/helper.c \
-		src/movements.c
+		src/movements.c \
+		src/mouse_movements.c
 OBJ = $(SRC:.c=.o)
 
 LIBFT_DIR = libs/libft

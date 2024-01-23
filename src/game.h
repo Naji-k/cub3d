@@ -39,5 +39,6 @@ float			dist(float ax, float ay, float bx, float by);
 void			fix_angle(float *angle);
 void			key_hook(mlx_key_data_t key, void *param);
 void			loop_hook(void *param);
+void			cursor_moves(double xpos, double ypos, void *param);
 
 #endif

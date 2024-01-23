@@ -50,6 +50,7 @@ typedef struct s_player
 	float				delta_x;
 	float				delta_y;
 	int					size;
+	double 				prev_xpos;
 	t_ray				ray;
 	t_move_direction	current_move;
 	t_player_direction	direction;

@@ -55,9 +55,9 @@ void	move_player(t_player *player, t_map *map)
 void	rotate_player(t_player *player)
 {
 	if (player->current_move == ROTATE_LEFT)
-		player->rotation += 0.1;
+		player->rotation += 0.01;
 	else if (player->current_move == ROTATE_RIGHT)
-		player->rotation -= 0.1;
+		player->rotation -= 0.01;
 	fix_angle(&player->rotation);
 	player->delta_x = cos(player->rotation) * MOVE_SPEED;
 	player->delta_y = -sin(player->rotation) * MOVE_SPEED;

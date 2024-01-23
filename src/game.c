@@ -22,11 +22,9 @@ void	draw_pixels(mlx_image_t *img, t_color color)
 {
 	size_t	tx;
 	size_t	ty;
-	t_color	og_color;
 
 	tx = 0;
 	ty = 0;
-	og_color = color;
 	while (ty < img->height)
 	{
 		while (tx < img->width)
@@ -106,6 +104,7 @@ t_error	init_game(t_game *game)
 	game->player->fov = 60;
 	game->player->current_move = NONE;
 	game->player->direction = get_player_direction(game->player->rotation);
+	game->player->prev_xpos = -1;
 	return (OK);
 }
 
@@ -173,5 +172,7 @@ void	update(t_game *game)
 	game->player->ray.ray_angle = game->player->rotation \
 		+ (degree_to_rad(game->player->fov) / 2);
 	fix_angle(&game->player->ray.ray_angle);
+	// mlx_get_mouse_pos(game->mlx, &game->mouse->pos_x, &game->mouse->pos_y);
+
 	ray_casting(game->map, game->player);
 }
