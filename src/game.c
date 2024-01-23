@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/23 16:01:31 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 16:23:46 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,13 @@ void	loop_hook(void *param)
 void	update(t_game *game)
 {
 	draw_pixels(game->player->player_lines, (t_color){.a = 0});
-	game->player->player_image->instances[0].x = game->player->x \
-		* TILE_SIZE - game->player->size / 2;
-	game->player->player_image->instances[0].y = game->player->y \
-		* TILE_SIZE - game->player->size / 2;
+	if (game->map->width < 24 && game->map->height < 24)
+	{
+		game->player->player_image->instances[0].x = game->player->x \
+			* TILE_SIZE - game->player->size / 2;
+		game->player->player_image->instances[0].y = game->player->y \
+			* TILE_SIZE - game->player->size / 2;
+	}
 	game->player->ray.ray_angle = game->player->rotation \
 		+ (degree_to_rad(game->player->fov) / 2);
 	fix_angle(&game->player->ray.ray_angle);

@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/23 13:39:03 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 16:22:28 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ t_error	draw_player(t_game *game)
 	if (init_player_images(game) == OK)
 	{
 		draw_pixels(player->player_image, (t_color){.raw = 0x00bb00FF});
-		if (mlx_image_to_window(game->mlx, player->player_image, player->x
+		if (game->map->width < 24 && game->map->height < 24 && \
+			mlx_image_to_window(game->mlx, player->player_image, player->x
 				* TILE_SIZE - (player->size / 2), player->y * TILE_SIZE - \
 				(player->size / 2)) == -1)
 			return (ERR_MLX);
@@ -64,9 +65,11 @@ t_error	init_player_images(t_game *game)
 	if (mlx_image_to_window(game->mlx, game->player->wall,
 			0, 0) < 0)
 		return (ERR_MLX);
-	if (create_map(game) != OK)
+	if (game->map->width < 24 && game->map->height < 24 && \
+			create_map(game) != OK)
 		return (ERR_MLX);
-	if (mlx_image_to_window(game->mlx, game->player->player_lines, 0, 0) < 0)
+	if (game->map->width < 24 && game->map->height < 24 && \
+		mlx_image_to_window(game->mlx, game->player->player_lines, 0, 0) < 0)
 		return (ERR_MLX);
 	return (OK);
 }
