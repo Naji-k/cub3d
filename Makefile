@@ -27,7 +27,10 @@ SRC =	src/main.c src/errors.c src/color.c src/map.c \
 		src/intersections.c \
 		src/utils.c \
 		src/movements.c \
-		src/mouse_movements.c
+		src/mouse_movements.c \
+		src/ray.c\
+		src/create_map.c
+
 OBJ = $(SRC:.c=.o)
 
 LIBFT_DIR = libs/libft

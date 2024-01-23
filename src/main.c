@@ -10,18 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 #include "MLX42.h"
-
 #include "errors.h"
 #include "game.h"
 #include "map.h"
 #include "parser/parser.h"
+#include <stdio.h>
 
 t_error	cub3d(t_game *game)
 {
-	t_error		err;
+	t_error	err;
 
 	err = init_game(game);
 	if (err != OK)
@@ -36,7 +34,7 @@ t_error	cub3d(t_game *game)
 		return (err);
 	}
 	mlx_key_hook(game->mlx, key_hook, game);
-	mlx_cursor_hook(game->mlx ,cursor_moves, game);
+	mlx_cursor_hook(game->mlx, cursor_moves, game);
 	mlx_loop_hook(game->mlx, loop_hook, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);
@@ -45,8 +43,8 @@ t_error	cub3d(t_game *game)
 
 int	main(int argc, char *argv[])
 {
-	t_error		err;
-	t_game		game;
+	t_error	err;
+	t_game	game;
 
 	if (argc != 2)
 	{
