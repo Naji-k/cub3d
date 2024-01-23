@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 16:24:21 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 11:45:04 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,12 +132,38 @@ void	key_hook(mlx_key_data_t key, void *param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		game->player->current_move = ROTATE_RIGHT;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_E))
-		game->map->doors_open = !game->map->doors_open;
+		game->map->doors_opening = !game->map->doors_opening;
 	rotate_player(game->player);
 	move_player(game->player, game->map);
 	game->player->current_move = NONE;
 	update(game);
 	(void)key;
+}
+
+void	loop_hook(void *param)
+{
+	t_game	*game;
+
+	game = param;
+	if (game->map->doors_opening && game->map->doors_state < DOOR_OPENING_TIME)
+	{
+		game->map->doors_state += game->mlx->delta_time;
+		if (game->map->doors_state >= DOOR_OPENING_TIME)
+		{
+			game->map->doors_open = true;
+			game->map->doors_state = DOOR_OPENING_TIME;
+		}
+		update(game);
+	}
+	else if (! game->map->doors_opening && game->map->doors_state > 0)
+	{
+		game->map->doors_state -= game->mlx->delta_time;
+		if (game->map->doors_state < DOOR_OPENING_TIME)
+			game->map->doors_open = false;
+		if (game->map->doors_state < 0)
+			game->map->doors_state = 0;
+		update(game);
+	}
 }
 
 void	update(t_game *game)

@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/16 16:03:36 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 11:27:50 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 11:33:06 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ double			degree_to_rad(float deg);
 float			dist(float ax, float ay, float bx, float by);
 void			fix_angle(float *angle);
 void			key_hook(mlx_key_data_t key, void *param);
+void			loop_hook(void *param);
 
 #endif

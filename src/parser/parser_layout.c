@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 13:16:56 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/19 14:54:32 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 11:41:03 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ static t_error	read_tile(t_map *map, t_player *player, char c, \
 	else if (c == '2')
 	{
 		map_set_tile(map, pos[0], pos[1], TILE_DOOR);
-		if (map->door1_texture == NULL || map->door2_texture == NULL)
+		if (map->door1_texture == NULL || map->door2_texture == NULL || \
+			map->door3_texture == NULL)
 			return (ERR_MISSING_DOOR_TEXTURES);
 	}
 	else if (c == 'N' || c == 'E' || c == 'S' || c == 'W')

@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/12 12:38:29 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/18 17:37:12 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 11:40:44 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	map_destruct(t_map *map)
 		mlx_delete_texture(map->door1_texture);
 	if (map->door2_texture != NULL)
 		mlx_delete_texture(map->door2_texture);
+	if (map->door3_texture != NULL)
+		mlx_delete_texture(map->door3_texture);
 	if (map->tiles != NULL)
 		free(map->tiles);
 }

@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 12:13:00 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/18 17:36:01 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 11:40:18 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static t_error	parse_line(char *current_line, t_map *map, int *found_fields)
 		return (string_to_texture(current_line + 3, &map->door1_texture));
 	if (!ft_strncmp("D2 ", current_line, 3))
 		return (string_to_texture(current_line + 3, &map->door2_texture));
+	if (!ft_strncmp("D3 ", current_line, 3))
+		return (string_to_texture(current_line + 3, &map->door3_texture));
 	if (!ft_strncmp("F ", current_line, 2))
 	{
 		if (*found_fields & FLOOR_COLOR_FIELD)

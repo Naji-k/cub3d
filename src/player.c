@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 15:59:21 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 11:43:56 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,12 @@ t_error	ray_casting(t_map *map, t_player *player)
 		}
 		if (player->ray.hit_tile == TILE_DOOR)
 		{
-			texture = map->door1_texture;
+			if (map->doors_state == 0)
+				texture = map->door1_texture;
+			else if (map->doors_state > 0 && map->doors_state <= DOOR_OPENING_TIME / 2)
+				texture = map->door2_texture;
+			else
+				texture = map->door3_texture;
 		}
 		step_size = player->ray.line_h / texture->height;
 		texture_y = 0;
