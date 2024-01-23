@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 13:16:56 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/23 11:41:03 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 15:55:37 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ static t_error	fill_map(t_map *map, t_player *player, t_list *lines)
 		lines = lines->next;
 		y++;
 	}
-	if (player->x == NAN)
+	if (isnanf(player->x))
 		return (ERR_NO_PLAYER);
 	return (OK);
 }
