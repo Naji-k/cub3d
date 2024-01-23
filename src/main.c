@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:54:02 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/23 12:05:21 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 12:06:07 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 t_error	cub3d(t_game *game)
 {
 	t_error		err;
-	
+
 	err = init_game(game);
 	if (err != OK)
 	{
