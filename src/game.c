@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/23 11:59:19 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 13:10:49 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ t_error	init_game(t_game *game)
 	game->player->size = 16;
 	game->player->fov = 60;
 	game->player->current_move = NONE;
-	game->player->direction = get_player_direction(game->player->rotation);
 	return (OK);
 }
 

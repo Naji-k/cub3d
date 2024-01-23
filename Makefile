@@ -26,7 +26,6 @@ SRC =	src/main.c src/errors.c src/color.c src/map.c \
  		src/parser/parser_layout.c \
 		src/intersections.c \
 		src/utils.c \
-		src/helper.c \
 		src/movements.c
 OBJ = $(SRC:.c=.o)
 
