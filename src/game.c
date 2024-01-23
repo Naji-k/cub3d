@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/23 13:10:49 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 13:18:06 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,24 @@ void	draw_pixels(mlx_image_t *img, t_color color)
 	}
 }
 
+static t_color	get_tile_color(t_map *map, size_t x, size_t y)
+{
+	if (map_get_tile(map, x, y) == TILE_NONE)
+		return ((t_color){.a = 0});
+	else if (map_get_tile(map, x, y) == TILE_WALL)
+		return ((t_color){.r = 31, .g = 31, .b = 31, .a = 255});
+	else if (map_get_tile(map, x, y) == TILE_DOOR)
+		return ((t_color){.r = 127, .g = 127, .b = 127, .a = 255});
+	else if (map_get_tile(map, x, y) == TILE_EMPTY)
+		return ((t_color){.r = 255, .g = 255, .b = 255, .a = 255});
+	else
+		return ((t_color){.r = 255, .g = 0, .b = 0, .a = 255});
+}
+
 /// @brief create mini_map_image as (TILE_SIZE = 32)
 /// in mlx window by looping in the whole map,
 /// make the walls as black, and empty spaces as white
 /// @param game
-/// @param x 0, base point to the map just to save some lines
-/// @param y 0, base point to the map just to save some lines
 /// @return error when mlx fails || ok
 t_error	create_map(t_game *game)
 {
@@ -59,16 +71,7 @@ t_error	create_map(t_game *game)
 		x = 0;
 		while (x < game->map->width)
 		{
-			if (map_get_tile(game->map, x, y) == TILE_NONE)
-				color = (t_color){.a = 0};
-			else if (map_get_tile(game->map, x, y) == TILE_WALL)
-				color = (t_color){.r = 31, .g = 31, .b = 31, .a = 255};
-			else if (map_get_tile(game->map, x, y) == TILE_DOOR)
-				color = (t_color){.r = 127, .g = 127, .b = 127, .a = 255};
-			else if (map_get_tile(game->map, x, y) == TILE_EMPTY)
-				color = (t_color){.r = 255, .g = 255, .b = 255, .a = 255};
-			else
-				color = (t_color){.r = 255, .g = 0, .b = 0, .a = 255};
+			color = get_tile_color(game->map, x, y);
 			mini_map_image = mlx_new_image(game->mlx, TILE_SIZE, TILE_SIZE);
 			if (!mini_map_image)
 				return (ERR_MLX);
