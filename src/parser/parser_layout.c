@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 13:16:56 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/23 15:55:37 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 15:58:37 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ static t_error	read_player(t_player *player, char c, unsigned long pos[2])
 {
 	if (! isnan(player->x))
 		return (ERR_DUPLICATE_PLAYER);
-	player->x = pos[0];
-	player->y = pos[1];
+	player->x = pos[0] + 0.5;
+	player->y = pos[1] + 0.5;
 	if (c == 'E')
 		player->rotation = 0.0 * M_PI;
 	else if (c == 'N')

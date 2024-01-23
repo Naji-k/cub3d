@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:32:03 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/23 13:18:06 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 16:01:31 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_error	init_game(t_game *game)
 	game->player->delta_y = -sin(game->player->rotation) * MOVE_SPEED;
 	game->player->ray.screen_w = game->mlx->width;
 	game->player->ray.screen_h = game->mlx->height;
-	game->player->size = 16;
+	game->player->size = 8;
 	game->player->fov = 60;
 	game->player->current_move = NONE;
 	game->player->prev_xpos = -1;
@@ -99,9 +99,9 @@ void	update(t_game *game)
 {
 	draw_pixels(game->player->player_lines, (t_color){.a = 0});
 	game->player->player_image->instances[0].x = game->player->x \
-		* TILE_SIZE - TILE_SIZE / 2;
+		* TILE_SIZE - game->player->size / 2;
 	game->player->player_image->instances[0].y = game->player->y \
-		* TILE_SIZE - TILE_SIZE / 2;
+		* TILE_SIZE - game->player->size / 2;
 	game->player->ray.ray_angle = game->player->rotation \
 		+ (degree_to_rad(game->player->fov) / 2);
 	fix_angle(&game->player->ray.ray_angle);
