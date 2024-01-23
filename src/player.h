@@ -18,7 +18,7 @@
 
 # define TILE_SIZE 16
 # define MOVE_SPEED 0.1
-# define ROTATE_SPEED 0.1
+# define ROTATE_SPEED 0.03
 
 typedef enum e_move_direction
 {
