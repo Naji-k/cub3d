@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/15 14:13:56 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/23 11:43:56 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 11:56:41 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 /// @param pos_x applied when the player moves
 /// @param pos_y
 /// @return
-t_error	draw_player(t_game *game, float pos_x, float pos_y)
+t_error	draw_player(t_game *game)
 {
 	t_player	*player;
 
@@ -31,8 +31,6 @@ t_error	draw_player(t_game *game, float pos_x, float pos_y)
 	if (!player->player_image)
 		return (ERR_MLX);
 	player->fov = 60;
-	player->x = pos_x;
-	player->y = pos_y;
 	player->ray.distance_h = INFINITY;
 	player->ray.distance_v = INFINITY;
 	player->ray.ray_angle = player->rotation + (degree_to_rad(player->fov) / 2);

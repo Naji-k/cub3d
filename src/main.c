@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/10 16:54:02 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/23 11:52:47 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 12:05:21 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,36 +19,54 @@
 #include "map.h"
 #include "parser/parser.h"
 
+t_error	cub3d(t_game *game)
+{
+	t_error		err;
+	
+	err = init_game(game);
+	if (err != OK)
+	{
+		mlx_terminate(game->mlx);
+		return (err);
+	}
+	err = draw_player(game);
+	if (err != OK)
+	{
+		mlx_terminate(game->mlx);
+		return (err);
+	}
+	mlx_key_hook(game->mlx, key_hook, game);
+	mlx_loop_hook(game->mlx, loop_hook, game);
+	mlx_loop(game->mlx);
+	mlx_terminate(game->mlx);
+	return (OK);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_error		err;
-	t_map		map;
-	t_player	player;
 	t_game		game;
 
 	if (argc != 2)
 	{
-		printf("please input exactly 1 map!\n");
+		printf("Error\nplease input exactly 1 map!\n");
 		return (1);
 	}
-	err = parse_file(argv[1], &map, &player);
+	err = parse_file(argv[1], &game.map_noptr, &game.player_noptr);
 	if (err != OK)
 	{
 		printf("Error\nParsing failed: %s!\n", error_string(err));
 		return (err);
 	}
-	if (map_is_closed(&map) == false)
+	if (map_is_closed(&game.map_noptr) == false)
 	{
 		printf("Error\nThe parsed map is not closed!\n");
-		map_destruct(&map);
+		map_destruct(&game.map_noptr);
 		return (1);
 	}
-	init_game(&game, &map, &player);
-	draw_player(&game, player.x, player.y);
-	mlx_key_hook(game.mlx, key_hook, &game);
-	mlx_loop_hook(game.mlx, loop_hook, &game);
-	mlx_loop(game.mlx);
-	mlx_terminate(game.mlx);
-	map_destruct(&map);
-	return (OK);
+	err = cub3d(&game);
+	map_destruct(&game.map_noptr);
+	if (err != OK)
+		printf("Error\nInitializing failed: %s!\n", error_string(err));
+	return (err);
 }
