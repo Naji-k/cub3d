@@ -1,7 +1,7 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Isrc -Ilibs/libft -Ilibs/MLX42/include/MLX42 -g -fsanitize=address 
-# LDFLAGS = -ldl -lglfw -pthread -lm #linux
-LDFLAGS = -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit	#naji's mac
+CFLAGS = -Wall -Wextra -Werror -Isrc -Ilibs/libft -Ilibs/MLX42/include/MLX42 -g -fsanitize=address -O3
+LDFLAGS = -ldl -lglfw -pthread -lm #linux
+# LDFLAGS = -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit	#naji's mac
 
 ################################################################################
 

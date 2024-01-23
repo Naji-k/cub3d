@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 14:29:54 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/19 15:12:09 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 12:57:19 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,15 @@ t_error	asci_to_color_rgb(t_color *color, char *string)
 		i--;
 	}
 	return (ERR_COLOR_TOO_MANY_VALUES);
+}
+
+t_color	swap_rgba_abgr(t_color original)
+{
+	t_color	new;
+
+	new.r = original.a;
+	new.g = original.b;
+	new.b = original.g;
+	new.a = original.r;
+	return (new);
 }

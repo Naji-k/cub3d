@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 12:13:00 by tsteur        #+#    #+#                 */
-/*   Updated: 2024/01/23 11:40:18 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 13:04:22 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@ static t_error	string_to_texture(char *string, mlx_texture_t **texture)
 	return (OK);
 }
 
-static t_error	parse_line(char *current_line, t_map *map, int *found_fields)
+static t_error	check_texture(char *current_line, t_map *map)
 {
-	if (current_line[0] == '\0')
-		return (OK);
 	if (!ft_strncmp("NO ", current_line, 3))
 		return (string_to_texture(current_line + 3, &map->north_texture));
 	if (!ft_strncmp("EA ", current_line, 3))
@@ -63,6 +61,18 @@ static t_error	parse_line(char *current_line, t_map *map, int *found_fields)
 		return (string_to_texture(current_line + 3, &map->door2_texture));
 	if (!ft_strncmp("D3 ", current_line, 3))
 		return (string_to_texture(current_line + 3, &map->door3_texture));
+	return (ERR_INVALID_IDENTIFIER);
+}
+
+static t_error	parse_line(char *current_line, t_map *map, int *found_fields)
+{
+	t_error	err;
+
+	if (current_line[0] == '\0')
+		return (OK);
+	err = check_texture(current_line, map);
+	if (err != ERR_INVALID_IDENTIFIER)
+		return (err);
 	if (!ft_strncmp("F ", current_line, 2))
 	{
 		if (*found_fields & FLOOR_COLOR_FIELD)

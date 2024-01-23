@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/16 17:54:28 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/22 12:01:01 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/23 13:53:41 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,26 @@ void	fix_angle(float *angle)
 	}
 }
 
+void	clamp_bounds(mlx_image_t *image, int start[2], int end[2])
+{
+	if (start[0] < 0)
+		start[0] = 0;
+	if (start[1] < 0)
+		start[1] = 0;
+	if (start[0] >= (int) image->width)
+		start[0] = (int) image->width - 1;
+	if (start[1] >= (int) image->height)
+		start[1] = (int) image->height - 1;
+	if (end[0] < 0)
+		end[0] = 0;
+	if (end[1] < 0)
+		end[1] = 0;
+	if (start[0] >= (int) image->width)
+		start[0] = (int) image->width - 1;
+	if (end[1] >= (int) image->height)
+		end[1] = (int) image->height - 1;
+}
+
 /// @brief to draw a line between two points on mlx_image,
 /// using a loop from 1st point,
 /// to the 2nd point,
@@ -49,53 +69,31 @@ void	fix_angle(float *angle)
 /// @param startY Y pos for the 1st point (starting point)
 /// @param endX X pos for the 2nd point (end point)
 /// @param endY Y pos for the 2nd point (end point)
-/// @return
-int	draw_line(mlx_image_t *image, int startX, int startY, int endX, int endY, \
-				t_color color)
+void	draw_line(mlx_image_t *image, int start[2], int end[2], t_color color)
 {
-	int	dx;
-	int	dy;
-	int	sx;
-	int	sy;
-	int	error;
-	int	error2;
+	int	d[2];
+	int	s[2];
+	int	error[2];
 
-	if (startX < 0)
-		startX = 0;
-	if (startY < 0)
-		startY = 0;
-	if (startX >= (int) image->width)
-		startX = (int) image->width - 1;
-	if (startY >= (int) image->height)
-		startY = (int) image->height - 1;
-	if (endX < 0)
-		endX = 0;
-	if (endY < 0)
-		endY = 0;
-	if (startX >= (int) image->width)
-		startX =(int)  image->width - 1;
-	if (endY >= (int) image->height)
-		endY = (int) image->height - 1;
-	mlx_put_pixel(image, startX, startY, color.raw);
-	dx = abs(endX - startX);
-	dy = abs(endY - startY);
-	sx = (startX < endX) ? 1 : -1;
-	sy = (startY < endY) ? 1 : -1;
-	error = dx - dy;
-	while ((startX != endX || startY != endY))
+	clamp_bounds(image, start, end);
+	d[0] = abs(end[0] - start[0]);
+	d[1] = abs(end[1] - start[1]);
+	s[0] = -1 + 2 * (start[0] < end[0]);
+	s[1] = -1 + 2 * (start[1] < end[1]);
+	error[0] = d[0] - d[1];
+	while ((start[0] != end[0] || start[1] != end[1]))
 	{
-		mlx_put_pixel(image, startX, startY, color.raw);
-		error2 = error * 2;
-		if (error2 > -dy)
+		mlx_put_pixel(image, start[0], start[1], color.raw);
+		error[1] = error[0] * 2;
+		if (error[1] > -d[1])
 		{
-			error -= dy;
-			startX += sx;
+			error[0] -= d[1];
+			start[0] += s[0];
 		}
-		if (error2 < dx)
+		if (error[1] < d[0])
 		{
-			error += dx;
-			startY += sy;
+			error[0] += d[0];
+			start[1] += s[1];
 		}
 	}
-	return (0);
 }
