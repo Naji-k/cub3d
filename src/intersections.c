@@ -6,7 +6,7 @@
 /*   By: nakanoun <nakanoun@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/16 15:48:20 by nakanoun      #+#    #+#                 */
-/*   Updated: 2024/01/23 12:55:14 by tsteur        ########   odam.nl         */
+/*   Updated: 2024/01/24 11:14:12 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	h_calculations(t_ray *ray, float p_x, float p_y, double angle)
 		return ;
 	if (angle > 0 && angle < M_PI)
 	{
-		yn = (((int)p_y >> sizeof(TILE_SIZE)) << sizeof(TILE_SIZE)) - 0.1;
+		yn = (((int)p_y >> sizeof(TILE_SIZE)) << sizeof(TILE_SIZE)) - 0.01;
 		ray->ys = -TILE_SIZE;
 	}
 	else
@@ -81,7 +81,7 @@ void	v_calculations(t_ray *ray, float p_x, float p_y, double angle)
 		return ;
 	if ((angle >= 0.5 * M_PI && angle < 1.5 * M_PI))
 	{
-		xn = (((int)p_x >> sizeof(TILE_SIZE)) << sizeof(TILE_SIZE)) - 0.1;
+		xn = (((int)p_x >> sizeof(TILE_SIZE)) << sizeof(TILE_SIZE)) - 0.01;
 		ray->xs = -TILE_SIZE;
 	}
 	else
