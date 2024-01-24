@@ -38,7 +38,7 @@ t_error	draw_player(t_game *game)
 	if (init_player_images(game) == OK)
 	{
 		draw_pixels(player->player_image, (t_color){.raw = 0x00bb00FF});
-		if (game->map->width < 24 && game->map->height < 24 && \
+		if (game->map->width < 64 && game->map->height < 64 && \
 			mlx_image_to_window(game->mlx, player->player_image, player->x
 				* TILE_SIZE - (player->size / 2), player->y * TILE_SIZE - \
 				(player->size / 2)) == -1)
@@ -65,10 +65,10 @@ t_error	init_player_images(t_game *game)
 	if (mlx_image_to_window(game->mlx, game->player->wall,
 			0, 0) < 0)
 		return (ERR_MLX);
-	if (game->map->width < 24 && game->map->height < 24 && \
+	if (game->map->width < 64 && game->map->height < 64 && \
 			create_map(game) != OK)
 		return (ERR_MLX);
-	if (game->map->width < 24 && game->map->height < 24 && \
+	if (game->map->width < 64 && game->map->height < 64 && \
 		mlx_image_to_window(game->mlx, game->player->player_lines, 0, 0) < 0)
 		return (ERR_MLX);
 	return (OK);

@@ -98,7 +98,7 @@ void	loop_hook(void *param)
 void	update(t_game *game)
 {
 	draw_pixels(game->player->player_lines, (t_color){.a = 0});
-	if (game->map->width < 24 && game->map->height < 24)
+	if (game->map->width < 64 && game->map->height < 64)
 	{
 		game->player->player_image->instances[0].x = game->player->x \
 			* TILE_SIZE - game->player->size / 2;
