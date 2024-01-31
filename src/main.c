@@ -35,6 +35,7 @@ t_error	cub3d(t_game *game)
 	}
 	mlx_key_hook(game->mlx, key_hook, game);
 	mlx_cursor_hook(game->mlx, cursor_moves, game);
+	mlx_set_cursor_mode(game->mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(game->mlx, loop_hook, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);

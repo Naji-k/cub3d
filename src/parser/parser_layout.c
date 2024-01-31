@@ -61,8 +61,8 @@ static t_error	read_player(t_player *player, char c, unsigned long pos[2])
 {
 	if (! isnan(player->x))
 		return (ERR_DUPLICATE_PLAYER);
-	player->x = pos[0] + 0.5;
-	player->y = pos[1] + 0.5;
+	player->x = pos[0];
+	player->y = pos[1];
 	if (c == 'E')
 		player->rotation = 0.0 * M_PI;
 	else if (c == 'N')
@@ -124,7 +124,7 @@ static t_error	fill_map(t_map *map, t_player *player, t_list *lines)
 		lines = lines->next;
 		y++;
 	}
-	if (isnanf(player->x))
+	if (player->x == NAN)
 		return (ERR_NO_PLAYER);
 	return (OK);
 }

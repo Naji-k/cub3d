@@ -20,7 +20,8 @@ void	cursor_moves(double xpos, double ypos, void *param)
 {
 	t_game		*game;
 	t_player	*player;
-
+	
+	
 	game = param;
 	player = game->player;
 	if (player->prev_xpos < 0)
@@ -30,13 +31,9 @@ void	cursor_moves(double xpos, double ypos, void *param)
 	else
 	{
 		if (xpos > player->prev_xpos)
-		{
 			player->current_move = ROTATE_RIGHT;
-		}
 		else if (xpos < player->prev_xpos)
-		{
 			player->current_move = ROTATE_LEFT;
-		}
 	}
 	player->prev_xpos = xpos;
 	rotate_player(player);
